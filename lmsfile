@@ -1,0 +1,23 @@
+-- A Lua Make System file
+
+require 'lms.litProgs'
+
+lpTargets = litProgs.targets{
+  mainDoc  = 'commdiag.tex',
+  docFiles = {
+    'overview.tex',
+    'preamble.tex',
+    'conclusion.tex',
+  },
+  docDir    = 't-commdiag/doc/context/third/commdiag',
+}
+
+require 'lms.contextMod'
+
+contextMod.targets(lpTargets, {
+  moduleFiles = {
+    't-commdiag.mkiv',
+    't-commdiag.lua',
+  },
+  moduleDir = 't-commdiag/tex/context/third/commdiag',
+})

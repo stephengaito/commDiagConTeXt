@@ -1,0 +1,37 @@
+% A ConTeXt document [master document: commdiag.tex]
+
+\startchapter[title=Conclusions]
+
+\startMkIVCode
+\protect \endinput
+\stopMkIVCode
+
+\addDocumentDirectory%
+  {t-commdiag/doc/context/third/commdiag}
+
+\createMkIVCodeFile%
+  {default}%
+  {t-commdiag.mkiv}%
+  {A ConTeXt MkIV module}
+
+\createLuaCodeFile%
+  {default}%
+  {t-commdiag.lua}%
+  {-- A Lua file}
+
+\addMainDocument{commdiag.tex}
+\addSubDocument{overview.tex}
+\addSubDocument{preamble.tex}
+\addSubDocument{conclusion.tex}
+
+\addConTeXtModuleDirectory%
+  {t-commdiag/tex/context/third/commdiag}
+  
+\compileLmsfile{default}
+
+\createLmsfileFile%
+  {default}%
+  {lmsfile}%
+  {-- A Lua Make System file}
+
+\stopchapter
