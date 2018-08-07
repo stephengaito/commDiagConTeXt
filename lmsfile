@@ -6,6 +6,7 @@ lpTargets = litProgs.targets{
   mainDoc  = 'commdiag.tex',
   docFiles = {
     'overview.tex',
+    'macros.tex',
     'preamble.tex',
     'conclusion.tex',
   },
@@ -17,6 +18,7 @@ require 'lms.contextMod'
 contextMod.targets(lpTargets, {
   moduleFiles = {
     't-commdiag.mkiv',
+    't-commdiag.mpiv',
     't-commdiag.lua',
   },
   moduleDir = 't-commdiag/tex/context/third/commdiag',

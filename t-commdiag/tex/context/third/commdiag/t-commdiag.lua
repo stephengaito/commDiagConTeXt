@@ -1,6 +1,6 @@
 -- A Lua file
 
--- from file: preamble.tex after line: 50
+-- from file: preamble.tex after line: 100
 
 -- This is the lua code associated with t-commdiag.mkiv
 

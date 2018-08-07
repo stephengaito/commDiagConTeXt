@@ -1,0 +1,23 @@
+% A ConTeXt document [master document: commdiag.tex]
+
+\startchapter[title=Conclusions]
+
+\startMpIVCode
+
+% Hello from MpIV code
+
+%D Some more paths:
+
+message("Loaded Commutative Diagaram MetaPost definitions") ;
+
+path mySimplePath ;
+
+mySimplePath := (1cm,1cm)--(1.5cm,1.5cm)..(2cm,0cm)..cycle ;
+
+\stopMpIVCode
+
+\startMPpage
+fill mySimplePath scaled 5cm withcolor red ;
+\stopMPpage
+
+\stopchapter

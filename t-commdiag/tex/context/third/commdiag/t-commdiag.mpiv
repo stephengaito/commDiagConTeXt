@@ -1,6 +1,6 @@
-% A ConTeXt MkIV module
+% A ConTeXt MpIV module
 
-% from file: preamble.tex after line: 0
+% from file: preamble.tex after line: 50
 
 %D \module
 %D   [     file=t-commdiag,
@@ -42,28 +42,18 @@
 %
 % end info
 
-% the following IMMEDIATELY loads our t-commdiag.mpiv file into EVERY
-% instance which allows extensions
-%
-%\startMPextensions
-%  input t-commdiag.mpiv
-%\stopMPextensions
+if known commdiag_macros : endinput ; fi ;
 
-% the following (dealayed) loads our t-commdiag.mpiv file into ONLY the
-% metafun (default) instance.
-%
-\startMPdefinitions {metafun}
-    if unknown commdiag_macros : input t-commdiag.mpiv ; fi ;
-\stopMPdefinitions
+boolean commdiag_macros ; commdiag_macros := true ;
 
-% from file: preamble.tex after line: 50
+% from file: macros.tex after line: 0
 
-\usemodule[literate-progs]
+% Hello from MpIV code
 
-\unprotect
+%D Some more paths:
 
-\ctxloadluafile{t-commdiag}
+message("Loaded Commutative Diagaram MetaPost definitions") ;
 
-% from file: conclusion.tex after line: 0
+path mySimplePath ;
 
-\protect \endinput
+mySimplePath := (1cm,1cm)--(1.5cm,1.5cm)..(2cm,0cm)..cycle ;
