@@ -10,12 +10,17 @@ you *might* try the corresponding Commutative Diagrams package, Tikz-cd.
 On the other hand.... the MetaPost embedded inside ConTeXt together with 
 the native [MetaFun](http://wiki.contextgarden.net/MetaFun) (the ConTeXt 
 MetaPost extensions), are actually so powerful there might not be much 
-need for a separate Commutative Diagrams package...
+need for a separate Commutative Diagrams package... 
 
-On the thrid hand... [Alan Kennington's collection of MetaPost Diagram 
+On the third hand... [Alan Kennington's collection of MetaPost Diagram 
 examples](http://www.topology.org/tex/conc/mp/README.html) has lots of 
 example Commutative Diagrams... more than enough to get started using 
 Commutative Diagram's inside ConTeXt.
+
+I think that we should *start* by providing a simple "objects + 
+morphisms" approach, and ensure that the morphisms correctly deal with 
+the size of the bounding boxes of objects they "link" (see Kenningtion's 
+S_arrowspaces macro for a very simple start)..
 
 ### Resources
 
