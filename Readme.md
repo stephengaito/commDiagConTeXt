@@ -36,15 +36,15 @@ of arrows)
 
 - simple (solid, dashed, dotted)
 - injection ("hooked")
-- surjection ("barbbed")
+- surjection ("barbed")
 - aplication ("bar" on origin)
 - dot-end
 
-- double arrow (stacked "above" each other) (can have arrows pointing 
+- multiple arrows (stacked "above" each other) (can have arrows pointing 
   opposite directions)
 
 - equals
-- implies (solid, dashed, dotted double arrows)
+- implies (solid, dashed, dotted, double lines with single arrows)
 - squiggle (metafun page 293)
 - zigzag
 - curved (metafun alter control points)
