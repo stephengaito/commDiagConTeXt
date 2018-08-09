@@ -22,6 +22,13 @@ morphisms" approach, and ensure that the morphisms correctly deal with
 the size of the bounding boxes of objects they "link" (see Kenningtion's 
 S_arrowspaces macro for a very simple start)..
 
+We might also consider something similar to 
+[Tkiz-cd](https://ctan.org/pkg/tikz-cd)'s matrix format, interpreted in 
+Lua and sent to both ConTeXt and MPLib to be typeset. If we can typeset 
+all lables and objects before invoking MPLib, then we could have 
+MetaPost compute the matrix positions. (See MetaFun section 4.6 page 143 
+for details on how to set TeX text and then get the bounding boxes...)
+
 ### Resources
 
 It has been useful to consult J.S. Milne's [Guide to Commutative Diagram 
