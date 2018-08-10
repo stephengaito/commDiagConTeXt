@@ -64,6 +64,88 @@
 
 \ctxloadluafile{t-commdiag}
 
+% from file: macros.tex after line: 0
+
+\defineMPinstance
+  [commDiag]
+  [
+    format=metafun,
+    extensions=yes,
+    initializations=yes,
+    method=double
+  ]
+ 
+\startMPdefinitions{commDiag}
+  def setupCommDiags =
+    picture objLabel[][];
+    picture arrLabel[][][][];
+    numeric hasArrow[][][][];
+    string aPos[][][][];
+    pair w[][];
+    path aLine;
+    pair aBegin;
+    pair aEnd;
+    numeric numRows; numRows := 0;
+    numeric numCols; numCols := 0;
+  enddef ;
+
+  def updateRowsCols(expr i, j) =
+    if numRows < i : numRows := i; fi ;
+    if numCols < j : numCols := j; fi ;
+  enddef;
+ 
+  def addObject(expr row, col, aLabel) =
+    updateRowsCols(row, col);
+    objLabel[row][col] := thelabel("$"&aLabel&"$", origin);
+  enddef ;
+
+  def drawObjects(expr rowWidth, colWidth) =
+    for i = 1 upto numRows :
+      for j = 1 upto numCols :
+        w[i][j] = (j*colWidth*cm, (-i)*rowWidth*cm);
+        objLabel[i][j] := objLabel[i][j] shifted w[i][j];
+        draw objLabel[i][j];
+      endfor;
+    endfor;
+  enddef;
+ 
+  def addArrow(expr fRow, fCol, tRow, tCol, aLabel, position, bend) =
+    aLine  := w[fRow][fCol] .. w[tRow][tCol];
+    aBegin := aLine intersectionpoint objLabel[fRow][fCol] enlarged 0.15cm ;
+    aEnd   := aLine intersectionpoint objLabel[tRow][tCol] enlarged 0.15cm ;
+    path anArrow;
+    anArrow := aBegin .. aEnd;
+    drawarrow anArrow ;
+    if 0 < length(aLabel) :
+      picture aLabelPic;
+      aLabelPic := thelabel("$"&aLabel&"$", origin ) ;
+      pair aLabelPt;
+      aLabelPt := point 0.5 of anArrow;
+      if length(position) < 1 :
+        label(aLabelPic, aLabelPt);
+      elseif position = "top" :
+        label.top(aLabelPic, aLabelPt);
+      elseif position = "lft" :
+        label.lft(aLabelPic, aLabelPt);
+      elseif position = "rt" :
+        label.rt(aLabelPic, aLabelPt);
+      elseif position = "bot" :
+        label.bot(aLabelPic, aLabelPt);
+      elseif position = "ulft" :
+        label.ulft(aLabelPic, aLabelPt);
+      elseif position = "urt" :
+        label.urt(aLabelPic, aLabelPt);
+      elseif position = "llft" :
+        label.llft(aLabelPic, aLabelPt);
+      elseif position = "lrt" :
+        label.lrt(aLabelPic, aLabelPt);
+      else :
+        label(aLabelPic, aLabelPt);
+      fi;
+    fi;
+  enddef;
+\stopMPdefinitions
+
 % from file: conclusion.tex after line: 0
 
 \protect \endinput
