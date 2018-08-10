@@ -75,3 +75,15 @@ that one node is to the "left" or "above" another...
 We *should* adjust the lengths of arrows to take into account the 
 bounding boxes of the node/oject labels. ConTeXt *can* do this.... so we 
 probably should unless it is way to hard to see how to do.
+
+**Notes:**
+
+1. We can use scantokens to scan arbitrary text into metapost 
+processed tokens. See MetaFun page 97-98.
+
+2. We can use runscript/lua/scantokens (inside a metapost script) to 
+call "back" into Lua and then interpret the result as metapost. See 
+MetaFun chapter 15 Lua.
+
+3. We can use MetaPost suffix and text parameter types.... See MetaPost 
+section 10.3 page 56.

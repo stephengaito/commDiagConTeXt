@@ -109,7 +109,7 @@
     endfor;
   enddef;
  
-  def addArrow(expr fRow, fCol, tRow, tCol, aLabel, position, bend) =
+  def addArrow(expr fRow, fCol, tRow, tCol)(expr aLabel)(suffix position)(expr bend) =
     aLine  := w[fRow][fCol] .. w[tRow][tCol];
     aBegin := aLine intersectionpoint objLabel[fRow][fCol] enlarged 0.15cm ;
     aEnd   := aLine intersectionpoint objLabel[tRow][tCol] enlarged 0.15cm ;
@@ -121,27 +121,7 @@
       aLabelPic := thelabel("$"&aLabel&"$", origin ) ;
       pair aLabelPt;
       aLabelPt := point 0.5 of anArrow;
-      if length(position) < 1 :
-        label(aLabelPic, aLabelPt);
-      elseif position = "top" :
-        label.top(aLabelPic, aLabelPt);
-      elseif position = "lft" :
-        label.lft(aLabelPic, aLabelPt);
-      elseif position = "rt" :
-        label.rt(aLabelPic, aLabelPt);
-      elseif position = "bot" :
-        label.bot(aLabelPic, aLabelPt);
-      elseif position = "ulft" :
-        label.ulft(aLabelPic, aLabelPt);
-      elseif position = "urt" :
-        label.urt(aLabelPic, aLabelPt);
-      elseif position = "llft" :
-        label.llft(aLabelPic, aLabelPt);
-      elseif position = "lrt" :
-        label.lrt(aLabelPic, aLabelPt);
-      else :
-        label(aLabelPic, aLabelPt);
-      fi;
+      label position (aLabelPic, aLabelPt) ;
     fi;
   enddef;
 \stopMPdefinitions
