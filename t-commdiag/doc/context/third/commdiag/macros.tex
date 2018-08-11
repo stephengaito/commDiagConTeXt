@@ -204,7 +204,13 @@
     (expr aLabel)
     (suffix position)
     (expr bend) =
-    aLine  := w[fRow][fCol] .. w[tRow][tCol];
+    save firstControl, secondControl ; pair firstControl, secondControl ;
+    firstControl  := unitvector (w[tRow][tCol] - w[fRow][fCol]);
+    secondControl := - firstControl ;
+    firstControl  := (firstControl rotated bend) shifted w[fRow][fCol] ;
+    secondControl := (secondControl rotated -bend) shifted w[tRow][tCol] ;
+    
+    aLine  := w[fRow][fCol] .. controls firstControl and secondControl .. w[tRow][tCol];
     aBegin := aLine intersectionpoint objLabel[fRow][fCol] enlarged 0.15cm ;
     aEnd   := aLine intersectionpoint objLabel[tRow][tCol] enlarged 0.15cm ;
     path anArrow;
