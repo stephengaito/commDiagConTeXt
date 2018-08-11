@@ -56,6 +56,12 @@
   %% % $Id: plain.mp,v 1.3 2005/04/28 06:45:21 taco Exp $
   %% % Public domain.
   %
+
+  newinternal sahFraction;
+  sahFraction := 0.9; % default second arrowhead point 90% of arrow path
+  
+  %% Forward arrow heads/tails ...
+  
   vardef firstArrowHead expr p =
     save q,e; path q; pair e;
     e := point length p of p;
@@ -64,9 +70,6 @@
     (q rotated .5ahangle & reverse q rotated -.5ahangle -- cycle)  shifted e
   enddef;
   
-  newinternal sahFraction;
-  sahFraction := 0.9; % default second arrowhead point 90% of arrow path
-
   vardef secondArrowHead expr p =
     save q, e; path q; pair e;
     e := point (sahFraction*length p) of p;
@@ -77,7 +80,7 @@
     (q rotated .5ahangle & reverse q rotated -.5ahangle -- cycle)  shifted e
   enddef;
   
-  vardef lastArrowHead expr p =
+  vardef firstArrowTail expr p =
     save q,eA, eB; path q; pair eA, eB;
     eA := point 0 of p;
     q := gobble(p shifted -eA cutbefore makepath(pencircle scaled 2ahlength))
@@ -88,7 +91,7 @@
       shifted (eA + eB)
   enddef;
   
-  vardef secondLastArrowHead expr p =
+  vardef secondArrowTail expr p =
     save q,eA, eB, aFraction; path q; pair eA, eB; numeric aFraction;
     aFraction := 2*(1.0 - sahFraction);
     eA := point (aFraction * length p) of p;
@@ -102,21 +105,78 @@
       shifted (eA + eB)
   enddef;
 
-  vardef firstDotHead expr p =
+  %% Reversed arrow heads/tails ...
+  
+  vardef firstReversedArrowHead expr p =
+    save q, eA, eB; path q; pair eA, eB;
+    eA := point length p of p;
+    q := gobble(
+      p shifted -eA 
+      cutafter makepath(pencircle scaled 2ahlength)
+    ) cuttings;
+    eB := point 0 of q ;
+    q := q shifted -eB ;
+    ( reverse q rotated .5ahangle & q rotated -.5ahangle -- cycle)
+      shifted (eA + eB)
+  enddef;
+
+  vardef secondReversedArrowHead expr p =
+    save q, eA, eB; path q; pair eA, eB;
+    eA := point (sahFraction*length p) of p;
+    q := gobble(
+      subpath (0, (sahFraction*length p)) of p shifted -eA 
+      cutafter makepath(pencircle scaled 2ahlength)
+    ) cuttings;
+    eB := point 0 of q ;
+    q := q shifted -eB ;
+    (reverse q rotated .5ahangle & q rotated -.5ahangle -- cycle)
+      shifted (eA + eB)
+  enddef;
+
+  vardef firstReversedArrowTail expr p =
+    save q,eA, eB; path q; pair eA, eB;
+    eA := point 0 of p;
+    q := gobble(
+      p shifted -eA
+      cutbefore makepath(pencircle scaled 2ahlength)
+    ) cuttings;
+    (reverse q rotated .5ahangle & q rotated -.5ahangle -- cycle)
+      shifted eA
+  enddef;
+  
+  vardef secondReversedArrowTail expr p =
+    save q,eA, eB, aFraction; path q; pair eA, eB; numeric aFraction;
+    aFraction := 2*(1.0 - sahFraction);
+    eA := point (aFraction * length p) of p;
+    q := gobble(
+      subpath (0, (aFraction * length p)) of p shifted -eA
+      cutafter makepath(pencircle scaled 2ahlength)
+    ) cuttings;
+    eB := point 0 of q;
+    q := q shifted -eB ;
+    ( reverse q rotated .5ahangle & q rotated -.5ahangle -- cycle)
+      shifted (eA + eB)
+  enddef;
+  
+  %% Dot heads/tails ...
+  
+  vardef dotHead expr p =
     save q,eA,eB; path q; pair eA, eB;
     eA := point length p of p;
     eB := p shifted -eA intersectionpoint makepath(pencircle scaled ahlength) ;
     makepath(pencircle scaled ahlength) shifted (eA+eB)
   enddef;
   
-  vardef lastDotHead expr p =
+  vardef dotTail expr p =
     save q,eA,eB; path q; pair eA, eB;
     eA := point 0 of p;
     eB := p shifted -eA intersectionpoint makepath(pencircle scaled ahlength) ;
     makepath(pencircle scaled ahlength) shifted (eA+eB)
   enddef;
 
-  vardef firstBarHead expr p =
+  %% Bar heads/tails ...
+  
+  vardef barHead expr p =
     save q,e; path q; pair e;
     e := point length p of p;
     q := gobble(
@@ -126,7 +186,7 @@
     (q rotated 90 & reverse q rotated 270) shifted e
   enddef;
 
-  vardef lastBarHead expr p =
+  vardef barTail expr p =
     save q,e; path q; pair e;
     e := point 0 of p;
     q := gobble(
@@ -136,12 +196,11 @@
     (reverse q rotated 90 & q rotated 270) shifted e
   enddef;
   
-  
   % The "drawarrow" implementation is based upon that in plain.mp (see above)
   %
   def addArrow
     (expr fRow, fCol, tRow, tCol)
-    (expr fromHeads, toHeads)
+    (expr fromTails, toHeads)
     (expr aLabel)
     (suffix position)
     (expr bend) =
@@ -154,18 +213,22 @@
     % a local "drawarrow" implementation
     %
     draw anArrow ; 
-    if 0 < length(fromHeads) :
-      for i = 1 upto length(fromHeads) :
-        numeric aHead;
-        aHead := ASCII (substring(i-1,i) of fromHeads);
-        if aHead = 124 : % "|"
-          draw lastBarHead anArrow ;
-        elseif aHead = 111 : % "o"
-          filldraw lastDotHead anArrow ;
-        elseif aHead = 62 : % ">"
-          filldraw lastArrowHead anArrow ;
-        elseif aHead = 93 : % "]"
-          filldraw secondLastArrowHead anArrow ;
+    if 0 < length(fromTails) :
+      for i = 1 upto length(fromTails) :
+        numeric aTail;
+        aTail := ASCII (substring(i-1,i) of fromTails);
+        if aTail = 124 : % "|"
+          draw barTail anArrow ;
+        elseif aTail = 111 : % "o"
+          filldraw dotTail anArrow ;
+        elseif aTail = 62 : % ">"
+          filldraw firstArrowTail anArrow ;
+        elseif aTail = 60 : % "<"
+          filldraw firstReversedArrowTail anArrow ;
+        elseif aTail = 93 : % "]"
+          filldraw secondArrowTail anArrow ;
+        elseif aTail = 91 : % "["
+          filldraw secondReversedArrowTail anArrow ;
         fi ;
       endfor ;
     fi ;
@@ -174,13 +237,17 @@
         numeric aHead;
         aHead := ASCII (substring(i-1,i) of toHeads);
         if aHead = 124 : % "|" 
-          draw firstBarHead anArrow ;
+          draw barHead anArrow ;
         elseif aHead = 111 : % "o"
-          filldraw firstDotHead anArrow ;
+          filldraw dotHead anArrow ;
         elseif aHead = 62 : % ">"
           filldraw firstArrowHead anArrow ;
+        elseif aHead = 60 : % "<"
+          filldraw firstReversedArrowHead anArrow ;
         elseif aHead = 93 : % "]"
           filldraw secondArrowHead anArrow ;
+        elseif aHead = 91 : % "["
+          filldraw secondReversedArrowHead anArrow ;
         fi ;
       endfor ;
     fi ;
