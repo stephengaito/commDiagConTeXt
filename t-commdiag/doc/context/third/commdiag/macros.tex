@@ -87,6 +87,9 @@
       endfor
     point (numUT-1)*ut of p -- point length p of p
   enddef;
+  
+  newinternal equalArrowShift;
+  equalArrowShift := 1bp ;
     
   % Based on the definition of "arrowhead" 
   % in file tex/texmf/metapost/base/plain.mp 
@@ -248,9 +251,14 @@
     (suffix labelSuffix)
     text allText =
     %
-    save fromTails, aTail, body, toHeads, aHead, outAngle, anArrow, labelPosition;
+    save aTail, aHead, outAngle, labelPosition;
+    save fromTails, body, toHeads;
+    save barAdjust;
+    save anArrow;
+    %
     numeric aTail, aHead, outAngle, labelPosition;
     string fromTails, body, toHeads;
+    pair barAdjust;
     path anArrow;
     %
     outAngle := angle (w[tRow][tCol] - w[fRow][fCol]);
@@ -300,11 +308,25 @@
       toHeads   := ">";
     fi ;
     %
+    barAdjust := (0,0);
     if body = "-" :
       draw anArrow bodyText allText ; 
     elseif body = "=" :
-      draw anArrow shifted (0,  1) bodyText allText ;
-      draw anArrow shifted (0, -1) bodyText allText ;
+      barAdjust := 3*unitvector(direction 0 of anArrow);
+      equalsShortenA := arctime 3*equalArrowShift of anArrow ;
+      equalsShortenB := length(anArrow) - equalsShortenA ;
+      draw subpath (equalsShortenA, equalsShortenB) of anArrow
+        shifted (
+          equalArrowShift *
+          unitvector((direction 0 of anArrow) rotated 90)
+        )
+        bodyText allText ;
+      draw subpath (equalsShortenA, equalsShortenB) of anArrow
+        shifted (
+          -equalArrowShift *
+          unitvector((direction 0 of anArrow) rotated 90)
+        )
+        bodyText allText ;
       interim ahlength := 2*ahlength;
     elseif body = "~" :
       draw sinuousArrow anArrow bodyText allText ;
@@ -318,7 +340,9 @@
       for i = 1 upto length(fromTails) :
         aTail := ASCII (substring(i-1,i) of fromTails);
         if aTail = 124 : % "|"
-          draw barTail anArrow arrowText allText ;
+          draw barTail anArrow
+            shifted barAdjust
+            arrowText allText ;
         elseif aTail = 111 : % "o"
           filldraw dotTail anArrow arrowText allText ;
         elseif aTail = 62 : % ">"
@@ -337,7 +361,9 @@
       for i = 1 upto length(toHeads) :
         aHead := ASCII (substring(i-1,i) of toHeads);
         if aHead = 124 : % "|" 
-          draw barHead anArrow arrowText allText ;
+          draw barHead anArrow
+            shifted -barAdjust
+            arrowText allText ;
         elseif aHead = 111 : % "o"
           filldraw dotHead anArrow arrowText allText ;
         elseif aHead = 62 : % ">"
