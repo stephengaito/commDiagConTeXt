@@ -18,6 +18,8 @@ and is then drawn in the appropriate location in the matrix. Each arrow
 can be drawn with a number of arrow bodies, as well as arrow heads and/or 
 tails. Each arrow can also have a label, again typeset in \ConTeXt. 
 
+\section[title=Using \type{t-commdiag}]
+
 To \emph{use} the \type{t-commdiag} module, you need to \type{use} the 
 \type{t-commdiag} module in the \quote{usual} \ConTeXt\ way: 
 
@@ -53,6 +55,8 @@ As a simple example, consider the following square commutative diagram:
 \noindent\ It was created using the following \type{t-commdiag} code:
 
 \typebuffer
+
+\section[title=Describing a commutative diagram]
 
 A typical \type{t-commdiag} diagram's code is enclosed in a \ConTeXt\ 
 MetaFun environment (in this case the pair of \type{\startMPcode} and 
@@ -112,6 +116,8 @@ MetaPost/MetaFun code. However your own code \emph{must} be located
 
 \noindent\ The order of these four sections is \emph{critical}, they will 
 not work in any other order.
+
+\section[title=The \type{addArrow} macro]
 
 {\bf The \type{addArrow} macro} has upto 12 arguments in a number of 
 logical groups. The {\bf arrow is described} by the first six arguments. 
@@ -216,5 +222,154 @@ line.
 \item \type{"^"} the arrow will be drawn with a zig zag line.
 
 \stopitemize
+
+\section[title=Examples]
+
+\useURL[guideCDPackages][https://www.jmilne.org/not/CDGuide.html]
+
+The best way to understand how these macros can be used is to read through 
+the following examples. These examples are taken from James Milne's 
+\quote{Guide to Commutative Diagram Packages} which can be found at 
+\from[guideCDPackages]. In particular Milne's guide to drawing commutative 
+diagrams using the TikZ and/or TikZ-cd packages has the greatest number of 
+complex diagrams. We will provide examples of how to use \type{t-commdiag} 
+to draw each of these examples.
+
+\startbuffer
+\startformula\startMPcode{commDiag}
+
+  setupCommDiags ;
+  
+  addObject(1,1, "A") ;
+  addObject(1,2, "B") ;
+  addObject(1,3, "C") ;
+  addObject(2,2, "D") ;
+  
+  drawObjects(1.75cm, 2cm);
+  
+  addArrow(1,1, 1,2, ">->", 0)()()("u", 0.5, top);
+  addArrow(1,1, 1,2, ">->", 0)()()("b", 0.5, bot);
+
+  addArrow(1,3, 1,2, ">->", 0)()()("u", 0.5, top);
+  addArrow(1,3, 1,2, ">->", 0)()()("b", 0.5, bot);
+  
+  addArrow(1,1, 2,2, "]>",  0)()()("u", 0.5, urt);
+  addArrow(1,1, 2,2, "]>",  0)()()("b", 0.5, llft);
+  
+  addArrow(1,3, 2,2, "]>",  0)()()("u", 0.5, ulft);
+  addArrow(1,3, 2,2, "]>",  0)()()("b", 0.5, lrt);
+
+  addArrow(1,2, 2,2, ">",   0)
+    (dashed withdots scaled 0.5)()("l", 0.5, lft);
+  addArrow(1,2, 2,2, ">",   0)
+    (dashed withdots scaled 0.5)()("r", 0.5, rt);
+\stopMPcode\stopformula
+\stopbuffer
+
+\processTEXbuffer
+
+\typebuffer
+
+\startbuffer
+\startformula\startMPcode{commDiag}
+
+  setupCommDiags ;
+  
+  addObject(1,1, "A") ;
+  addObject(1,2, "B") ;
+  addObject(1,3, "C") ;
+  addObject(2,1, "D") ;
+  addObject(2,2, "E") ;
+  addObject(2,3, "F") ;
+  
+  drawObjects(1.75cm, 4cm);
+  
+  addArrow(1,1, 1,2, ">", 0)()()("", 0.5, );
+  addArrow(1,2, 1,3, ">", 0)()()("\text{very long label}", 0.5, top);
+  
+  addArrow(2,1, 2,2, ">", 0)()()("", 0.5, );
+  addArrow(2,2, 2,3, ">", 0)()()("", 0.5, );
+  
+  addArrow(1,1, 2,1, ">", 0)()()("", 0.5, );
+  addArrow(1,2, 2,2, ">", 0)()()("", 0.5, );
+  addArrow(1,3, 2,3, ">", 0)()()("", 0.5, );
+\stopMPcode\stopformula
+\stopbuffer
+
+\processTEXbuffer
+
+\typebuffer
+
+\startbuffer
+\startformula\startMPcode{commDiag}
+
+  setupCommDiags ;
+  
+  addObject(1,1, "\hat{A}") ;
+  addObject(1,2, "\underset{n \in Z}{\prod} A_n") ;
+  addObject(1,3, "\underset{n \in Z}{\prod} A_n") ;
+  
+  drawObjects(1.75cm, 2cm);
+  
+  addArrow(1,1, 1,2, ">", 0)()()("", 0.5, );
+  addArrow(1,2, 1,3, ">", 0)()()("", 0.5, );
+\stopMPcode\stopformula
+\stopbuffer
+
+\processTEXbuffer
+
+\typebuffer
+
+\startbuffer
+\startformula\startMPcode{commDiag}
+
+  setupCommDiags ;
+  
+  addObject(1,1, "A") ;
+  addObject(1,2, "B") ;
+  
+  drawObjects(1.75cm, 2cm);
+  
+  addArrow(1,1, 1,2, ">",  60)()()("", 0.5, );
+  addArrow(1,1, 1,2, ">", -60)()()("", 0.5, );
+\stopMPcode\stopformula
+\stopbuffer
+
+\processTEXbuffer
+
+\typebuffer
+
+\startbuffer
+\startformula\startMPcode{commDiag}
+
+  setupCommDiags ;
+  
+  addObject(1,2, "A") ;
+  
+  addObject(2,2, "B") ;
+  addObject(2,3, "C") ;
+  addObject(2,4, "D") ;
+  addObject(2,5, "E") ;
+  
+  addObject(3,1, "F") ;
+  
+  drawObjects(1.75cm, 2cm);
+  
+  addArrow(1,2, 2,3, ">", 0)()()("c", 0.5, );
+  addArrow(1,2, 2,4, ">", 0)()()("d", 0.5, );
+  addArrow(1,2, 2,5, ">", 0)()()("e", 0.5, );
+
+  addArrow(2,2, 2,3, ">", 0)()()("", 0.5, );
+  addArrow(2,3, 2,4, ">", 0)()()("", 0.5, );
+  addArrow(2,4, 2,5, ">", 0)()()("", 0.5, );
+  
+  addArrow(1,2, 3,1, ">", 0)()()("f", 0.5, lft);
+  addArrow(2,2, 3,1, ">", 0)()()("",  0.5, );
+\stopMPcode\stopformula
+\stopbuffer
+
+\processTEXbuffer
+
+\typebuffer
 
 \stopchapter 
