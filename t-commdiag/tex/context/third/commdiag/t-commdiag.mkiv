@@ -93,10 +93,10 @@
     objLabel[row][col] := thelabel("$"&aLabel&"$", origin);
   enddef ;
 
-  def drawObjects(expr rowWidth, colWidth) =
+  def drawObjects(expr rowHeight, colWidth) =
     for i = 1 upto numRows :
       for j = 1 upto numCols :
-        w[i][j] = (j*colWidth*cm, (-i)*rowWidth*cm);
+        w[i][j] = (j*colWidth, (-i)*rowHeight);
         if known(objLabel[i][j]) :
           objLabel[i][j] := objLabel[i][j] shifted w[i][j];
           draw objLabel[i][j];
@@ -324,12 +324,18 @@
     path anArrow;
     %
     outAngle := angle (w[tRow][tCol] - w[fRow][fCol]);
-    anArrow := w[fRow][fCol]{dir (outAngle+bend)} .. {dir (outAngle-bend)}w[tRow][tCol];
+    anArrow :=
+      w[fRow][fCol]{dir (outAngle+bend)} ..
+      {dir (outAngle-bend)}w[tRow][tCol];
     if known(objLabel[fRow][fCol]) :
-      anArrow := anArrow cutbefore objLabel[fRow][fCol] enlarged 0.15cm ;
+      anArrow :=
+        anArrow cutbefore
+        objLabel[fRow][fCol] enlarged 0.15cm ;
     fi ;
     if known(objLabel[tRow][tCol]) :
-      anArrow := anArrow cutafter  objLabel[tRow][tCol] enlarged 0.15cm ;
+      anArrow :=
+        anArrow cutafter
+        objLabel[tRow][tCol] enlarged 0.15cm ;
     fi ;
     %
     % a local "drawarrow" implementation
