@@ -72,8 +72,8 @@ statement sets up the \type{objLabel} (object labels), and \type{objPos}
 (object position) matrices, as well as the \type{numRows} and 
 \type{numCols} variables. These \type{objLabel} and \type{objPos} matrices 
 are used by the \type{addObject} and \type{addArrow} statements, to 
-correctly align the objects and arrows of the commutative diagram. They 
-can also be used in your own MetaPost/MetaFun code. 
+correctly align the objects and arrows of the commutative diagram. These 
+matrices can also be used in your own MetaPost/MetaFun code. 
 
 \item {\bf A collection of \type{addObject} statements.} The 
 \type{addObject} macro takes three arguments. The first two are the row 
@@ -81,28 +81,140 @@ and column in the overall commutative diagram's matrix in which the object
 is located. The third and last argument is the object label as a string, 
 which is typeset by \ConTeXt. The row and column are expected to be 
 integers and are indices into the \type{objLabel} and \type{objPos} 
-matrices. 
+matrices. You are not required to supply an object for every row, column 
+combination. Matrix cells which have no object label are simply not 
+drawn\footnote{The object position values \emph{are} computed should they 
+be needed in your own code.}. 
 
 \item {\bf The \type{drawObjects} statement.} The two arguments to the 
 \type{drawObjects} macro, are the row height, and column width 
 respectively. You can use these two parameters to adjust the overall size 
 of your diagram. The \type{drawObjects} statement sets the locations of 
-all of the object labels and then draws them. You can use these object 
-labels or object positions in your own MetaPost/MetaFun code. 
+all of the object labels and then draws them\footnote{MetaPost has the 
+native ability to compute layouts given a collection of drawing 
+constraints. However, at this time, we keep things simple by 
+\emph{explicitly} supplying the row height and column width. At sometime 
+in the future, we may implement full \emph{implicit} layout using 
+MetaPost's native constraint solving capabilities.}. You can use these 
+object labels or object positions in your own MetaPost/MetaFun code. 
 
 \item {\bf A collection of \type{addArrow} statements.} The 
 \type{addArrow} macro is rather more complex and is discussed below. 
 
 \item {\bf Optionally, your own MetaPost/MetaFun code.} If for some reason 
 the \type{t-commdiag} primitives are not sufficient for your needs, you 
-are able to use the \type{objLabel} and \type{objPos} matrices in your 
-arbitrary MetaPost/MetaFun code. However your own code \emph{must} be 
-located \emph{after} the \type{drawObjects} statement, and preferably 
-after all \type{addArrow} statements. 
+are able to use the \type{objLabel} and \type{objPos} matrices in your own 
+MetaPost/MetaFun code. However your own code \emph{must} be located 
+\emph{after} the \type{drawObjects} statement, and preferably after all 
+\type{addArrow} statements. 
 
 \stopitemize
 
 \noindent\ The order of these four sections is \emph{critical}, they will 
 not work in any other order.
+
+{\bf The \type{addArrow} macro} has upto 12 arguments in a number of 
+logical groups. The {\bf arrow is described} by the first six arguments. 
+The next two arguments, as well as the last (optional) argument 12, all 
+provide you the ability to specify {\bf MetaPost/MetaFun picture 
+commands}. Arguments 9, 10 and 11 describe the arrow's label. 
+
+\startitemize[n]
+
+\item {\bf Arrow description } \type{fromRow} integer index. 
+
+\item {\bf Arrow description } \type{fromCol} integer index. 
+
+\item {\bf Arrow description } \type{toRow} integer index. 
+
+\item {\bf Arrow description } \type{toCol} integer index. Together these 
+four indices, \type{(fromRow, fromCol)} and \type{(toRow, toCol)}, specify 
+the objects which the arrow connects. 
+
+\item {\bf Arrow description } \type{arrowDecorations} is a string which 
+describes the tail, body and head of the arrow. Its contents and meaning 
+are described below. 
+
+\item {\bf Arrow description } \type{bend} a numerical angle to the left 
+of the straight line with which the line should bend away from the 
+straight line. Negative angles bend to the right. 
+
+\item {\bf MetaPost/MetaFun picture command} (optional) arrow body 
+modifiers. These MetaPost/MetaFun command \emph{must} be surrounded by a 
+pair of round brackets, \type{"("} and \type{")"}. If you only supply an 
+empty pair of round brackets, no commands will be used. 
+
+\item {\bf MetaPost/MetaFun picture command} (optional) arrow tail and/or 
+head modifiers. These MetaPost/MetaFun command \emph{must} be surrounded 
+by a pair of round brackets, \type{"("} and \type{")"}. If you only supply 
+an empty pair of round brackets, no commands will be used. 
+
+\item {\bf Label description} a label string which is typeset by \ConTeXt. 
+If the label string is empty, \type{""}, no label will be drawn.
+
+\item {\bf Label description} the linear label position (a numeric value 
+between zero and one), which denotes how far along the arrow to place the 
+label. Values less than or equal to zero or greater than or equal to one 
+will place the label in the \emph{middle} of the arrow. 
+
+\item {\bf Label description} the relative label position (a symbolic 
+value) indicates where the label should be placed relative to the position 
+along the arrow's length. You can use any value, such as \type{lft}, 
+\type{rt}, \type{top}, or \type{bot}, which can be used with the MetaPost 
+\type{label} macro. 
+
+\item {\bf MetaPost/MetaFun picture command} (optional) modifies the 
+\emph{whole} arrow. In typical MetaPost/MetaFun fashion, these modifiers 
+are \emph{outside} of the \type{addArrow}'s formal arguments (that is they 
+are everything between the last \type{")"} and the statement's \type{";"}). 
+
+\stopitemize
+
+
+{\bf The \type{arrowDecorations} string} consists of three parts. The 
+first (optional) part describes the tail decorations. The middle 
+(optional) part describes the type of arrow. The last (optional) part 
+describes the head decorations. An empty, \type{""}, 
+\type{arrowDecorations} string will be replaced by the string \type{"->"}. 
+The tail and head decorations are deliniated by the \emph{first} body 
+decoration\footnote{Any body decorators other than the first one found 
+will be ignored.}, \type{"-"}, \type{"="}, \type{"~"}, or \type{"^"}, 
+found in the string. If no body decoration is found, the tail decorations 
+are assumed to be \type{""} and the body decorations are \type{"-"}. In 
+this case all of the \type{arrowDecroations} are used to describe the 
+arrow heads. The tail and head decorations are: 
+
+\startitemize
+
+\item \type{"o"} a dot at the tail or head end of the arrow.
+
+\item \type{">"} an arrow head at the tail or head end of the arrow, 
+directed in the positive direction of the arrow. 
+
+\item \type{"<"} an arrow head at the tail or head end of the arrow, 
+directed in the opposite direction of the arrow.
+
+\item \type{"]"} a second arrow head at the tail or head 
+end of the arrow, directed in the positive direction of the arrow. 
+
+\item \type{"["} a second arrow head at the tail or head 
+end of the arrow, directed in the opposite direction of the arrow. 
+
+\stopitemize
+
+\noindent\ The body decorations are:
+
+\startitemize
+
+\item \type{"-"} the arrow will be drawn with a simple straight line.
+
+\item \type{"="} the arrow will be drawn with a double \quote{equals} 
+line. 
+
+\item \type{"~"} the arrow will be drawn with a squiggly line.
+
+\item \type{"^"} the arrow will be drawn with a zig zag line.
+
+\stopitemize
 
 \stopchapter 
