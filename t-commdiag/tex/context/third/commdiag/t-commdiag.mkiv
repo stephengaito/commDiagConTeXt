@@ -102,6 +102,51 @@
       endfor;
     endfor;
   enddef;
+
+  % The following squiggles are based on Thurston's answer to
+  %   "How to create a wavy lines with MetaPost?"
+  % see: https://tex.stackexchange.com/a/162406
+  %
+  % Be reasonable with these lengths.  If you use `drawarrow` then
+  % you should ensure that s_lambda > ahlength
+
+  newinternal sArrowLambda, sArrowAngle;
+  sArrowLambda := 6;  % the length of the waves
+  sArrowAngle  := 45; % the angle of attack
+
+  vardef sinuousArrow expr p =
+    save ut, numUT; numeric ut, numUT;
+    ut    := arctime sArrowLambda of p;
+    numUT := floor(length p / ut) ;
+    point 0 of p --
+    point ut of p {curl 0} ..
+      for i=2 step 2 until numUT-3:
+        point     i*ut of p
+          { (direction     i*ut of p) rotated +sArrowAngle } ..
+        point (i+1)*ut of p
+          { (direction (i+1)*ut of p) rotated -sArrowAngle } ..
+      endfor
+    { direction length p of p } point ((numUT-1)*ut) of p --
+    point length(p) of p
+  enddef;
+
+  newinternal z_lambda, z_amp;
+  zArrowLambda := 6;   % the length of the zig-zags
+  zArrowAmp    := 2.4; % the amplitude of each zig and zag
+
+  vardef ziggyArrow expr p =
+    save ut, numUT; numeric ut, numUT;
+    ut    := arctime zArrowLambda of p;
+    numUT := floor(length p / ut) ;
+    point 0 of p -- point ut of p --
+      for i=2 step 2 until numUT-3:
+        point     i*ut of p +
+          zArrowAmp*up   rotated angle direction     i*ut of p --
+        point (i+1)*ut of p +
+          zArrowAmp*down rotated angle direction (i+1)*ut of p --
+      endfor
+    point (numUT-1)*ut of p -- point length p of p
+  enddef;
  
   % Based on the definition of "arrowhead"
   % in file tex/texmf/metapost/base/plain.mp
@@ -254,9 +299,9 @@
  
   % The "drawarrow" implementation is based upon that in plain.mp (see above)
   %
-  def addArrow
+  vardef addArrow
     (expr fRow, fCol, tRow, tCol)
-    (expr fromTails, toHeads)
+    (expr fromTails, body, toHeads)
     (expr aLabel)
     (suffix position)
     (expr bend)
@@ -273,7 +318,20 @@
     %
     % a local "drawarrow" implementation
     %
-    draw anArrow allText ;
+    if body = "-" :
+      draw anArrow allText ;
+    elseif body = "=" :
+      draw anArrow shifted (0,  1) allText ;
+      draw anArrow shifted (0, -1) allText ;
+      interim ahlength := 2*ahlength;
+    elseif body = "~" :
+      draw sinuousArrow anArrow allText ;
+    elseif body = "^" :
+      draw ziggyArrow anArrow allText ;
+    else :
+      draw anArrow allText ;
+    fi;
+    %
     if 0 < length(fromTails) :
       for i = 1 upto length(fromTails) :
         aTail := ASCII (substring(i-1,i) of fromTails);
