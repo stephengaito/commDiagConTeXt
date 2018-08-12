@@ -197,7 +197,8 @@
     (expr fromTails, toHeads)
     (expr aLabel)
     (suffix position)
-    (expr bend) =
+    (expr bend)
+    text allText =
     %
     save aTail, aHead, outAngle, anArrow;
     numeric aTail, aHead, outAngle;
@@ -210,22 +211,22 @@
     %
     % a local "drawarrow" implementation
     %
-    draw anArrow ; 
+    draw anArrow allText ; 
     if 0 < length(fromTails) :
       for i = 1 upto length(fromTails) :
         aTail := ASCII (substring(i-1,i) of fromTails);
         if aTail = 124 : % "|"
-          draw barTail anArrow ;
+          draw barTail anArrow allText ;
         elseif aTail = 111 : % "o"
-          filldraw dotTail anArrow ;
+          filldraw dotTail anArrow allText ;
         elseif aTail = 62 : % ">"
-          filldraw firstArrowTail anArrow ;
+          filldraw firstArrowTail anArrow allText ;
         elseif aTail = 60 : % "<"
-          filldraw firstReversedArrowTail anArrow ;
+          filldraw firstReversedArrowTail anArrow allText ;
         elseif aTail = 93 : % "]"
-          filldraw secondArrowTail anArrow ;
+          filldraw secondArrowTail anArrow allText ;
         elseif aTail = 91 : % "["
-          filldraw secondReversedArrowTail anArrow ;
+          filldraw secondReversedArrowTail anArrow allText ;
         fi ;
       endfor ;
     fi ;
@@ -234,17 +235,17 @@
       for i = 1 upto length(toHeads) :
         aHead := ASCII (substring(i-1,i) of toHeads);
         if aHead = 124 : % "|" 
-          draw barHead anArrow ;
+          draw barHead anArrow allText ;
         elseif aHead = 111 : % "o"
-          filldraw dotHead anArrow ;
+          filldraw dotHead anArrow allText ;
         elseif aHead = 62 : % ">"
-          filldraw firstArrowHead anArrow ;
+          filldraw firstArrowHead anArrow allText ;
         elseif aHead = 60 : % "<"
-          filldraw firstReversedArrowHead anArrow ;
+          filldraw firstReversedArrowHead anArrow allText ;
         elseif aHead = 93 : % "]"
-          filldraw secondArrowHead anArrow ;
+          filldraw secondArrowHead anArrow allText ;
         elseif aHead = 91 : % "["
-          filldraw secondReversedArrowHead anArrow ;
+          filldraw secondReversedArrowHead anArrow allText ;
         fi ;
       endfor ;
     fi ;
@@ -253,7 +254,7 @@
       label position (
         thelabel("$"&aLabel&"$", origin ) ,
         point 0.5 of anArrow
-      ) ;
+      ) allText ;
     fi;
   enddef;
 \stopMPdefinitions
