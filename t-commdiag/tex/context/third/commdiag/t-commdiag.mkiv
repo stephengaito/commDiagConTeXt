@@ -97,8 +97,10 @@
     for i = 1 upto numRows :
       for j = 1 upto numCols :
         w[i][j] = (j*colWidth*cm, (-i)*rowWidth*cm);
-        objLabel[i][j] := objLabel[i][j] shifted w[i][j];
-        draw objLabel[i][j];
+        if known(objLabel[i][j]) :
+          objLabel[i][j] := objLabel[i][j] shifted w[i][j];
+          draw objLabel[i][j];
+        fi ;
       endfor;
     endfor;
   enddef;
@@ -301,33 +303,75 @@
   %
   vardef addArrow
     (expr fRow, fCol, tRow, tCol)
-    (expr fromTails, body, toHeads)
-    (expr aLabel)
-    (suffix position)
-    (expr bend)
+    (expr arrowDecorations, bend)
+    (text bodyText)
+    (text arrowText)
+    (expr aLabel, labelPositionExpr)
+    (suffix labelSuffix)
     text allText =
     %
-    save aTail, aHead, outAngle, anArrow;
-    numeric aTail, aHead, outAngle;
+    save fromTails, aTail, body, toHeads, aHead, outAngle, anArrow, labelPosition;
+    numeric aTail, aHead, outAngle, labelPosition;
+    string fromTails, body, toHeads;
     path anArrow;
     %
     outAngle := angle (w[tRow][tCol] - w[fRow][fCol]);
     anArrow := w[fRow][fCol]{dir (outAngle+bend)} .. {dir (outAngle-bend)}w[tRow][tCol];
-    anArrow := anArrow cutbefore objLabel[fRow][fCol] enlarged 0.15cm ;
-    anArrow := anArrow cutafter  objLabel[tRow][tCol] enlarged 0.15cm ;
+    if known(objLabel[fRow][fCol]) :
+      anArrow := anArrow cutbefore objLabel[fRow][fCol] enlarged 0.15cm ;
+    fi ;
+    if known(objLabel[tRow][tCol]) :
+      anArrow := anArrow cutafter  objLabel[tRow][tCol] enlarged 0.15cm ;
+    fi ;
     %
     % a local "drawarrow" implementation
     %
+    if string(arrowDecorations) :
+      save startBody, aChar; numeric startBody, aChar;
+      startBody  := -1;
+      for i = 1 upto length(arrowDecorations) :
+        aChar := ASCII substring (i-1,i) of arrowDecorations ;
+        if aChar = 45 : % "-"
+          startBody := i;
+        elseif aChar = 61 : % "="
+          startBody := i;
+        elseif aChar = 126 : % "~"
+          startBody := i;
+        elseif aChar = 94 : % "^"
+          startBody := i;
+        fi ;
+      endfor ;
+      if 0 < startBody :
+        fromTails :=
+          substring (0, startBody-1)
+          of arrowDecorations ;
+        body      :=
+          substring (startBody-1, startBody)
+          of arrowDecorations ;
+        toHeads   :=
+          substring (startBody, length(arrowDecorations))
+          of arrowDecorations ;
+      else :
+        fromTails := "";
+        body      := "-";
+        toHeads   := arrowDecorations;
+      fi ;
+    else :
+      fromTails := "";
+      body      := "-";
+      toHeads   := ">";
+    fi ;
+    %
     if body = "-" :
-      draw anArrow allText ;
+      draw anArrow bodyText allText ;
     elseif body = "=" :
-      draw anArrow shifted (0,  1) allText ;
-      draw anArrow shifted (0, -1) allText ;
+      draw anArrow shifted (0,  1) bodyText allText ;
+      draw anArrow shifted (0, -1) bodyText allText ;
       interim ahlength := 2*ahlength;
     elseif body = "~" :
-      draw sinuousArrow anArrow allText ;
+      draw sinuousArrow anArrow bodyText allText ;
     elseif body = "^" :
-      draw ziggyArrow anArrow allText ;
+      draw ziggyArrow anArrow bodyText allText ;
     else :
       draw anArrow allText ;
     fi;
@@ -336,17 +380,17 @@
       for i = 1 upto length(fromTails) :
         aTail := ASCII (substring(i-1,i) of fromTails);
         if aTail = 124 : % "|"
-          draw barTail anArrow allText ;
+          draw barTail anArrow arrowText allText ;
         elseif aTail = 111 : % "o"
-          filldraw dotTail anArrow allText ;
+          filldraw dotTail anArrow arrowText allText ;
         elseif aTail = 62 : % ">"
-          filldraw firstArrowTail anArrow allText ;
+          filldraw firstArrowTail anArrow arrowText allText ;
         elseif aTail = 60 : % "<"
-          filldraw firstReversedArrowTail anArrow allText ;
+          filldraw firstReversedArrowTail anArrow arrowText allText ;
         elseif aTail = 93 : % "]"
-          filldraw secondArrowTail anArrow allText ;
+          filldraw secondArrowTail anArrow arrowText allText ;
         elseif aTail = 91 : % "["
-          filldraw secondReversedArrowTail anArrow allText ;
+          filldraw secondReversedArrowTail anArrow arrowText allText ;
         fi ;
       endfor ;
     fi ;
@@ -355,25 +399,36 @@
       for i = 1 upto length(toHeads) :
         aHead := ASCII (substring(i-1,i) of toHeads);
         if aHead = 124 : % "|"
-          draw barHead anArrow allText ;
+          draw barHead anArrow arrowText allText ;
         elseif aHead = 111 : % "o"
-          filldraw dotHead anArrow allText ;
+          filldraw dotHead anArrow arrowText allText ;
         elseif aHead = 62 : % ">"
-          filldraw firstArrowHead anArrow allText ;
+          filldraw firstArrowHead anArrow arrowText allText ;
         elseif aHead = 60 : % "<"
-          filldraw firstReversedArrowHead anArrow allText ;
+          filldraw firstReversedArrowHead anArrow arrowText allText ;
         elseif aHead = 93 : % "]"
-          filldraw secondArrowHead anArrow allText ;
+          filldraw secondArrowHead anArrow arrowText allText ;
         elseif aHead = 91 : % "["
-          filldraw secondReversedArrowHead anArrow allText ;
+          filldraw secondReversedArrowHead anArrow arrowText allText ;
         fi ;
       endfor ;
     fi ;
     %
+    if numeric(labelPositionExpr) :
+      if (labelPositionExpr) <= 0 :
+        labelPosition := 0.5 ;
+      elseif (labelPositionExpr) >= 1 :
+        labelPosition := 0.5
+      else :
+        labelPosition := labelPositionExpr ;
+      fi ;
+    else :
+      labelPosition := 0.5;
+    fi ;
     if 0 < length(aLabel) :
-      label position (
+      label labelSuffix (
         thelabel("$"&aLabel&"$", origin ) ,
-        point 0.5 of anArrow
+        point labelPosition*length(anArrow) of anArrow
       ) allText ;
     fi;
   enddef;
