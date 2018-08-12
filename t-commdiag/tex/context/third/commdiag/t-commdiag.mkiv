@@ -78,13 +78,7 @@
 \startMPdefinitions{commDiag}
   def setupCommDiags =
     picture objLabel[][];
-    picture arrLabel[][][][];
-    numeric hasArrow[][][][];
-    string aPos[][][][];
     pair w[][];
-    path aLine;
-    pair aBegin;
-    pair aEnd;
     numeric numRows; numRows := 0;
     numeric numCols; numCols := 0;
   enddef ;
@@ -266,24 +260,21 @@
     (expr aLabel)
     (suffix position)
     (expr bend) =
-    save firstControl, secondControl ; pair firstControl, secondControl ;
-    firstControl  := unitvector (w[tRow][tCol] - w[fRow][fCol]);
-    secondControl := - firstControl ;
-    firstControl  := (firstControl rotated bend) shifted w[fRow][fCol] ;
-    secondControl := (secondControl rotated -bend) shifted w[tRow][tCol] ;
- 
-    aLine  := w[fRow][fCol] .. controls firstControl and secondControl .. w[tRow][tCol];
-    aBegin := aLine intersectionpoint objLabel[fRow][fCol] enlarged 0.15cm ;
-    aEnd   := aLine intersectionpoint objLabel[tRow][tCol] enlarged 0.15cm ;
+    %
+    save aTail, aHead, outAngle, anArrow;
+    numeric aTail, aHead, outAngle;
     path anArrow;
-    anArrow := aBegin .. aEnd;
+    %
+    outAngle := angle (w[tRow][tCol] - w[fRow][fCol]);
+    anArrow := w[fRow][fCol]{dir (outAngle+bend)} .. {dir (outAngle-bend)}w[tRow][tCol];
+    anArrow := anArrow cutbefore objLabel[fRow][fCol] enlarged 0.15cm ;
+    anArrow := anArrow cutafter  objLabel[tRow][tCol] enlarged 0.15cm ;
     %
     % a local "drawarrow" implementation
     %
     draw anArrow ;
     if 0 < length(fromTails) :
       for i = 1 upto length(fromTails) :
-        numeric aTail;
         aTail := ASCII (substring(i-1,i) of fromTails);
         if aTail = 124 : % "|"
           draw barTail anArrow ;
@@ -300,9 +291,9 @@
         fi ;
       endfor ;
     fi ;
+    %
     if 0 < length(toHeads) :
       for i = 1 upto length(toHeads) :
-        numeric aHead;
         aHead := ASCII (substring(i-1,i) of toHeads);
         if aHead = 124 : % "|"
           draw barHead anArrow ;
@@ -319,12 +310,12 @@
         fi ;
       endfor ;
     fi ;
+    %
     if 0 < length(aLabel) :
-      picture aLabelPic;
-      aLabelPic := thelabel("$"&aLabel&"$", origin ) ;
-      pair aLabelPt;
-      aLabelPt := point 0.5 of anArrow;
-      label position (aLabelPic, aLabelPt) ;
+      label position (
+        thelabel("$"&aLabel&"$", origin ) ,
+        point 0.5 of anArrow
+      ) ;
     fi;
   enddef;
 \stopMPdefinitions
