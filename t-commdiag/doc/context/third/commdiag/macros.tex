@@ -16,7 +16,7 @@
 \startMPdefinitions{commDiag}
   def setupCommDiags = 
     picture objLabel[][];
-    pair w[][];
+    pair objPos[][];
     numeric numRows; numRows := 0;
     numeric numCols; numCols := 0;
   enddef ;
@@ -34,9 +34,9 @@
   def drawObjects(expr rowHeight, colWidth) = 
     for i = 1 upto numRows : 
       for j = 1 upto numCols :
-        w[i][j] = (j*colWidth, (-i)*rowHeight);
+        objPos[i][j] = (j*colWidth, (-i)*rowHeight);
         if known(objLabel[i][j]) :
-          objLabel[i][j] := objLabel[i][j] shifted w[i][j];
+          objLabel[i][j] := objLabel[i][j] shifted objPos[i][j];
           draw objLabel[i][j];
         fi ;
       endfor;
@@ -261,10 +261,10 @@
     pair barAdjust;
     path anArrow;
     %
-    outAngle := angle (w[tRow][tCol] - w[fRow][fCol]);
+    outAngle := angle (objPos[tRow][tCol] - objPos[fRow][fCol]);
     anArrow := 
-      w[fRow][fCol]{dir (outAngle+bend)} .. 
-      {dir (outAngle-bend)}w[tRow][tCol];
+      objPos[fRow][fCol]{dir (outAngle+bend)} .. 
+      {dir (outAngle-bend)}objPos[tRow][tCol];
     if known(objLabel[fRow][fCol]) :
       anArrow :=
         anArrow cutbefore

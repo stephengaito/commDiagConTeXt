@@ -13,11 +13,10 @@ implement the Commutative Diagrams module is an integral part of this document.
 As far as the \type{t-commdiag} module is concerned, a commutative diagram 
 is a collection of \quote{objects} laid out in a (rectangular) martix, 
 together with a collection of \quote{arrows} between pairs of 
-\quote{objects}. The label for a given object is typically typeset using 
-\ConTeXt\ and is then drawn in the appropriate location in the matrix. 
-Each arrow can be drawn with a number of arrow bodies, as well as arrow 
-heads and/or tails. Each arrow can also have a label, again typeset in 
-\ConTeXt. 
+\quote{objects}. The label for a given object is typeset using \ConTeXt\ 
+and is then drawn in the appropriate location in the matrix. Each arrow 
+can be drawn with a number of arrow bodies, as well as arrow heads and/or 
+tails. Each arrow can also have a label, again typeset in \ConTeXt. 
 
 To \emph{use} the \type{t-commdiag} module, you need to \type{use} the 
 \type{t-commdiag} module in the \quote{usual} \ConTeXt\ way: 
@@ -55,31 +54,48 @@ As a simple example, consider the following square commutative diagram:
 
 \typebuffer
 
-A typical \type{t-commdiag} diagram's code has five sections:
+A typical \type{t-commdiag} diagram's code is enclosed in a \ConTeXt\ 
+MetaFun environment (in this case the pair of \type{\startMPcode} and 
+\type{\stopMPcode} \ConTeXt\ macros). While a \type{t-commdiag} 
+commutative diagram \emph{can} be position inline (inside running text), 
+it is typically positioned using one of \ConTeXt's displayed mathematics 
+or figure environments (in this case the pair of \type{\startformula} and 
+\type{\stopformula} \ConTeXt\ macros). 
+
+The \type{t-commdiag} code which describes a given commutative diagram has 
+five sections: 
 
 \startitemize[n]
 
 \item {\bf The \type{setupComDiags} statement.} The \type{setupCommDiags} 
-statement sets up the \type{objLabel}, and \type{w} matrices, as well as 
-the \type{numRows} and \type{numCols} variables. These \type{objLabel} and 
-\type{w} matrices are used by the \type{addObject} and \type{addArrow} 
-statements, to correctly align the objects and arrows of the commutative 
-diagram.
+statement sets up the \type{objLabel} (object labels), and \type{objPos} 
+(object position) matrices, as well as the \type{numRows} and 
+\type{numCols} variables. These \type{objLabel} and \type{objPos} matrices 
+are used by the \type{addObject} and \type{addArrow} statements, to 
+correctly align the objects and arrows of the commutative diagram. They 
+can also be used in your own MetaPost/MetaFun code. 
 
-\item {\bf A collection of \type{addObject} statements.}
+\item {\bf A collection of \type{addObject} statements.} The 
+\type{addObject} macro takes three arguments. The first two are the row 
+and column in the overall commutative diagram's matrix in which the object 
+is located. The third and last argument is the object label as a string, 
+which is typeset by \ConTeXt. The row and column are expected to be 
+integers and are indices into the \type{objLabel} and \type{objPos} 
+matrices. 
 
 \item {\bf The \type{drawObjects} statement.} The two arguments to the 
-\type{drawObjects} statement, are the row height, and column width 
+\type{drawObjects} macro, are the row height, and column width 
 respectively. You can use these two parameters to adjust the overall size 
 of your diagram. The \type{drawObjects} statement sets the locations of 
 all of the object labels and then draws them. You can use these object 
 labels or object positions in your own MetaPost/MetaFun code. 
 
-\item {\bf A collection of \type{addArrow} statements.}
+\item {\bf A collection of \type{addArrow} statements.} The 
+\type{addArrow} macro is rather more complex and is discussed below. 
 
 \item {\bf Optionally, your own MetaPost/MetaFun code.} If for some reason 
 the \type{t-commdiag} primitives are not sufficient for your needs, you 
-are able to use the \type{objLabel} and \type{w} matrices in your 
+are able to use the \type{objLabel} and \type{objPos} matrices in your 
 arbitrary MetaPost/MetaFun code. However your own code \emph{must} be 
 located \emph{after} the \type{drawObjects} statement, and preferably 
 after all \type{addArrow} statements. 
