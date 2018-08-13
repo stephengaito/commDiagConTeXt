@@ -26,9 +26,22 @@
     if numCols < j : numCols := j; fi ;
   enddef;
   
-  def addObject(expr row, col, aLabel) =
+  def checkRowsCols(expr i, j) =
+    if (i < 1) or
+      (numRows < i) or
+      (j < 1) or
+      (numCols < j) :
+      message("numRows = "&decimal numRows);
+      message("numCols = "&decimal numCols);
+      errmessage("incorrect row or column in ("&decimal i&", "&decimal j&")!");
+    fi;
+  enddef;
+  
+  def addObject(expr row, col, aLabel) text allText =
     updateRowsCols(row, col);
-    objLabel[row][col] := thelabel("$"&aLabel&"$", origin);
+    objLabel[row][col] := image(
+      label("$"&aLabel&"$", origin) allText;
+    ) ;
   enddef ;
 
   def drawObjects(expr rowHeight, colWidth) = 
@@ -255,11 +268,16 @@
     save fromTails, body, toHeads;
     save barAdjust;
     save anArrow;
+    save imageLabel;
     %
     numeric aTail, aHead, outAngle, labelPosition;
     string fromTails, body, toHeads;
     pair barAdjust;
     path anArrow;
+    picture imageLabel;
+    %
+    checkRowsCols(fRow, fCol);
+    checkRowsCols(tRow, tCol);
     %
     outAngle := angle (objPos[tRow][tCol] - objPos[fRow][fCol]);
     anArrow := 
@@ -396,10 +414,14 @@
       labelPosition := 0.5;
     fi ;
     if 0 < length(aLabel) :
-      label labelSuffix (
-        thelabel("$"&aLabel&"$", origin ) ,
-        point labelPosition*length(anArrow) of anArrow
-      ) allText ;
+      imageLabel := image(
+        label labelSuffix (
+          thelabel("$"&aLabel&"$", origin ) ,
+          point labelPosition*length(anArrow) of anArrow
+        ) allText ;
+      );
+      unfill bbox imageLabel;
+      draw imageLabel;
     fi;
   enddef;
 \stopMPdefinitions
