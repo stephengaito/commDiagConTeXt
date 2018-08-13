@@ -276,67 +276,26 @@
     fi ;
     anArrow
   enddef;
-  
-  vardef drawArrowLabel
-    (expr aLabel, labelPositionExpr)
-    (suffix labelSuffix)
-    (expr anArrow)
-    text allText =
-    %
-    save imageLabel, labelPosition;
-    numeric labelPosition;
-    picture imageLabel;
-    %
-    if numeric(labelPositionExpr) :
-      if (labelPositionExpr) <= 0 :
-        labelPosition := 0.5 ;
-      elseif (labelPositionExpr) >= 1 :
-        labelPosition := 0.5
-      else :
-        labelPosition := labelPositionExpr ;
-      fi ;
-    else :
-      labelPosition := 0.5;
-    fi ;
-    if 0 < length(aLabel) :
-      imageLabel := image(
-        label labelSuffix (
-          thelabel("$"&aLabel&"$", origin ) ,
-          point labelPosition*length(anArrow) of anArrow
-        ) allText ;
-      );
-      unfill bbox imageLabel;
-      draw imageLabel;
-    fi;
-  enddef;
-    
-  % The "drawarrow" implementation is based upon that in plain.mp (see above)
-  %
-  vardef addArrow
-    (expr fRow, fCol, tRow, tCol)
-    (expr arrowDecorations, bend)
+
+  vardef drawCDArrow
+    (expr arrowDecorations, anArrow)
     (text bodyText)
     (text arrowText)
-    (expr aLabel, labelPositionExpr)
-    (suffix labelSuffix)
     text allText =
     %
     save aTail, aHead;
     save fromTails, body, toHeads;
     save barAdjust;
-    save anArrow;
+    save equalsShortenA, equalsShortenB;
+    save startBody, aChar;
     %
     numeric aTail, aHead;
+    numeric equalsShortenA, equalsShortenB;
     string fromTails, body, toHeads;
     pair barAdjust;
-    path anArrow;
-    %
-    anArrow := computeArrow(fRow, fCol, tRow, tCol, bend);
-    %
-    % a local "drawarrow" implementation
+    numeric startBody, aChar;
     %
     if string(arrowDecorations) :
-      save startBody, aChar; numeric startBody, aChar;
       startBody  := -1;
       for i = 1 upto length(arrowDecorations) :
         aChar := ASCII substring (i-1,i) of arrowDecorations ; 
@@ -440,6 +399,57 @@
         fi ;
       endfor ;
     fi ;
+  enddef;
+  
+  vardef drawArrowLabel
+    (expr aLabel, labelPositionExpr)
+    (suffix labelSuffix)
+    (expr anArrow)
+    text allText =
+    %
+    save imageLabel, labelPosition;
+    numeric labelPosition;
+    picture imageLabel;
+    %
+    if numeric(labelPositionExpr) :
+      if (labelPositionExpr) <= 0 :
+        labelPosition := 0.5 ;
+      elseif (labelPositionExpr) >= 1 :
+        labelPosition := 0.5
+      else :
+        labelPosition := labelPositionExpr ;
+      fi ;
+    else :
+      labelPosition := 0.5;
+    fi ;
+    if 0 < length(aLabel) :
+      imageLabel := image(
+        label labelSuffix (
+          thelabel("$"&aLabel&"$", origin ) ,
+          point labelPosition*length(anArrow) of anArrow
+        ) allText ;
+      );
+      unfill bbox imageLabel;
+      draw imageLabel;
+    fi;
+  enddef;
+    
+  % The "drawarrow" implementation is based upon that in plain.mp (see above)
+  %
+  vardef addArrow
+    (expr fRow, fCol, tRow, tCol)
+    (expr arrowDecorations, bend)
+    (text bodyText)
+    (text arrowText)
+    (expr aLabel, labelPositionExpr)
+    (suffix labelSuffix)
+    text allText =
+    %
+    save anArrow; path anArrow;
+    %
+    anArrow := computeArrow(fRow, fCol, tRow, tCol, bend);
+    %
+    drawCDArrow(arrowDecorations, anArrow)(bodyText)(arrowText) allText ;
     %
     drawArrowLabel(aLabel, labelPositionExpr, labelSuffix, anArrow) allText ;
   enddef;
