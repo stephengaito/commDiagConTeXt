@@ -252,6 +252,30 @@
     ) cuttings;
     (reverse q rotated 90 & q rotated 270) shifted e
   enddef;
+
+  vardef computeArrow(expr fRow, fCol, tRow, tCol, bend) =
+    save outAngle;
+    numeric outAngle;
+    %
+    checkRowsCols(fRow, fCol);
+    checkRowsCols(tRow, tCol);
+    %
+    outAngle := angle (objPos[tRow][tCol] - objPos[fRow][fCol]);
+    anArrow := 
+      objPos[fRow][fCol]{dir (outAngle+bend)} .. 
+      {dir (outAngle-bend)}objPos[tRow][tCol];
+    if known(objLabel[fRow][fCol]) :
+      anArrow :=
+        anArrow cutbefore
+        objLabel[fRow][fCol] enlarged 0.15cm ;
+    fi ;
+    if known(objLabel[tRow][tCol]) :
+      anArrow :=
+        anArrow cutafter
+        objLabel[tRow][tCol] enlarged 0.15cm ;
+    fi ;
+    anArrow
+  enddef;
   
   vardef drawArrowLabel
     (expr aLabel, labelPositionExpr)
@@ -259,7 +283,8 @@
     (expr anArrow)
     text allText =
     %
-    save imageLabel;
+    save imageLabel, labelPosition;
+    numeric labelPosition;
     picture imageLabel;
     %
     if numeric(labelPositionExpr) :
@@ -296,33 +321,17 @@
     (suffix labelSuffix)
     text allText =
     %
-    save aTail, aHead, outAngle, labelPosition;
+    save aTail, aHead;
     save fromTails, body, toHeads;
     save barAdjust;
     save anArrow;
     %
-    numeric aTail, aHead, outAngle, labelPosition;
+    numeric aTail, aHead;
     string fromTails, body, toHeads;
     pair barAdjust;
     path anArrow;
     %
-    checkRowsCols(fRow, fCol);
-    checkRowsCols(tRow, tCol);
-    %
-    outAngle := angle (objPos[tRow][tCol] - objPos[fRow][fCol]);
-    anArrow := 
-      objPos[fRow][fCol]{dir (outAngle+bend)} .. 
-      {dir (outAngle-bend)}objPos[tRow][tCol];
-    if known(objLabel[fRow][fCol]) :
-      anArrow :=
-        anArrow cutbefore
-        objLabel[fRow][fCol] enlarged 0.15cm ;
-    fi ;
-    if known(objLabel[tRow][tCol]) :
-      anArrow :=
-        anArrow cutafter
-        objLabel[tRow][tCol] enlarged 0.15cm ;
-    fi ;
+    anArrow := computeArrow(fRow, fCol, tRow, tCol, bend);
     %
     % a local "drawarrow" implementation
     %

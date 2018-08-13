@@ -46,6 +46,6 @@ if known commdiag_macros : endinput ; fi ;
 
 boolean commdiag_macros ; commdiag_macros := true ;
 
-% from file: macros.tex after line: 400
+% from file: macros.tex after line: 450
 
 message("Loaded Commutative Diagram MetaPost definitions") ;
