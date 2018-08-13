@@ -339,6 +339,9 @@
     anArrow
   enddef;
 
+  newinternal drawFilledArrows;
+  drawFilledArrows := 1;
+ 
   vardef drawCDArrow
     (expr arrowDecorations, anArrow)
     (text bodyText)
@@ -428,15 +431,40 @@
             shifted barAdjust
             arrowText allText ;
         elseif aTail = 111 : % "o"
-          filldraw dotTail anArrow arrowText allText ;
+          if drawFilledArrows = 1:
+            filldraw dotTail anArrow arrowText allText ;
+          else :
+            unfill dotTail anArrow arrowText allText ;
+            draw dotTail anArrow arrowText allText ;
+          fi;
         elseif aTail = 62 : % ">"
-          filldraw firstArrowTail anArrow arrowText allText ;
+          if drawFilledArrows = 1:
+            filldraw firstArrowTail anArrow arrowText allText ;
+          else :
+            unfill firstArrowTail anArrow arrowText allText ;
+            draw firstArrowTail anArrow arrowText allText ;
+          fi;
         elseif aTail = 60 : % "<"
-          filldraw firstReversedArrowTail anArrow arrowText allText ;
+          if drawFilledArrows = 1 :
+            filldraw firstReversedArrowTail anArrow arrowText allText ;
+          else :
+            unfill firstReversedArrowTail anArrow arrowText allText ;
+            draw firstReversedArrowTail anArrow arrowText allText ;
+          fi;
         elseif aTail = 93 : % "]"
-          filldraw secondArrowTail anArrow arrowText allText ;
+          if drawFilledArrows = 1 :
+            filldraw secondArrowTail anArrow arrowText allText ;
+          else :
+            unfill secondArrowTail anArrow arrowText allText ;
+            draw secondArrowTail anArrow arrowText allText ;
+          fi;
         elseif aTail = 91 : % "["
-          filldraw secondReversedArrowTail anArrow arrowText allText ;
+          if drawFilledArrows = 1 :
+            filldraw secondReversedArrowTail anArrow arrowText allText ;
+          else :
+            unfill secondReversedArrowTail anArrow arrowText allText ;
+            draw secondReversedArrowTail anArrow arrowText allText ;
+          fi;
         fi ;
       endfor ;
     fi ;
@@ -449,15 +477,40 @@
             shifted -barAdjust
             arrowText allText ;
         elseif aHead = 111 : % "o"
-          filldraw dotHead anArrow arrowText allText ;
+          if drawFilledArrows = 1 :
+            filldraw dotHead anArrow arrowText allText ;
+          else :
+            unfill dotHead anArrow arrowText allText ;
+            draw dotHead anArrow arrowText allText ;
+          fi;
         elseif aHead = 62 : % ">"
-          filldraw firstArrowHead anArrow arrowText allText ;
+          if drawFilledArrows = 1 :
+            filldraw firstArrowHead anArrow arrowText allText ;
+          else :
+            unfill firstArrowHead anArrow arrowText allText ;
+            draw firstArrowHead anArrow arrowText allText ;
+          fi;
         elseif aHead = 60 : % "<"
-          filldraw firstReversedArrowHead anArrow arrowText allText ;
+          if drawFilledArrows = 1 :
+            filldraw firstReversedArrowHead anArrow arrowText allText ;
+          else :
+            unfill firstReversedArrowHead anArrow arrowText allText ;
+            draw firstReversedArrowHead anArrow arrowText allText ;
+          fi;
         elseif aHead = 93 : % "]"
-          filldraw secondArrowHead anArrow arrowText allText ;
+          if drawFilledArrows = 1 :
+            filldraw secondArrowHead anArrow arrowText allText ;
+          else :
+            unfill secondArrowHead anArrow arrowText allText ;
+            draw secondArrowHead anArrow arrowText allText ;
+          fi;
         elseif aHead = 91 : % "["
-          filldraw secondReversedArrowHead anArrow arrowText allText ;
+          if drawFilledArrows = 1 :
+            filldraw secondReversedArrowHead anArrow arrowText allText ;
+          else :
+            unfill secondReversedArrowHead anArrow arrowText allText ;
+            draw secondReversedArrowHead anArrow arrowText allText ;
+          fi;
         fi ;
       endfor ;
     fi ;

@@ -317,8 +317,6 @@ to draw each of these examples.
 
 \typebuffer
 
-{\bf \color[red]\ Add natural transformation arrow}
-
 \startbuffer
 \startformula\startMPcode{commDiag}
   setupCommDiags ;
@@ -339,8 +337,10 @@ to draw each of these examples.
   anArrow    := 
     point 0.5*length(upperArrow) of upperArrow --
     point 0.5*length(lowerArrow) of lowerArrow;
-  %  
+  %
+  drawFilledArrows := 0;
   drawCDArrow("=>", anArrow)()();
+  drawFilledArrows := 1;
 \stopMPcode\stopformula
 \stopbuffer
 
