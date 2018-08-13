@@ -3,8 +3,9 @@
 \startchapter[title=Overview]
 
 This document defines the Commutative Diagrams for \ConTeXt\ module, 
-\type{t-commdiag}. This module provides (Mathematical) Commutative 
-Diagrams using \ConTeXt's underlying MetaPost/MetaFun graphics primitives. 
+\type{t-commdiag} \ConTeXt\ module. This module provides (Mathematical) 
+Commutative Diagrams using \ConTeXt's underlying MetaPost/MetaFun graphics 
+primitives. 
 
 This document uses the \type{t-literate-modules} \ConTeXt\ module to 
 define the \type{t-commdiag} module. This means that the code required to 
@@ -29,6 +30,8 @@ To \emph{use} the \type{t-commdiag} module, you need to \type{use} the
 
 \noindent\ This \type{\usemodule} statement must occur in the document's 
 setup section.
+
+\section[title=Describing a commutative diagram]
 
 \startbuffer
 \startformula \startMPcode{commDiag}  
@@ -56,10 +59,14 @@ As a simple example, consider the following square commutative diagram:
 
 \typebuffer
 
-\section[title=Describing a commutative diagram]
-
 A typical \type{t-commdiag} diagram's code is enclosed in a \ConTeXt\ 
-MetaFun environment (in this case the pair of \type{\startMPcode} and 
+MetaFun environment (in this case the pair of 
+\type{\startMPcode{commDiag}}\footnote{The \ConTeXt\ MetaFun macros all 
+work within named MetaPost library instances. This ensures differnt uses 
+of MetaPost are properly isolated. The \type{t-commdiag} module follows 
+this practice by defining all of its MetaPost/MetaFun macros inside the 
+\type{commDiag} instance. This means that the \type{commDiag} argument to 
+the \ConTeXt\ MetaPost/MetaFun environments is \emph{required}.} and 
 \type{\stopMPcode} \ConTeXt\ macros). While a \type{t-commdiag} 
 commutative diagram \emph{can} be position inline (inside running text), 
 it is typically positioned using one of \ConTeXt's displayed mathematics 
@@ -71,24 +78,27 @@ five sections:
 
 \startitemize[n]
 
-\item {\bf The \type{setupComDiags} statement.} The \type{setupCommDiags} 
-statement sets up the \type{objLabel} (object labels), and \type{objPos} 
-(object position) matrices, as well as the \type{numRows} and 
-\type{numCols} variables. These \type{objLabel} and \type{objPos} matrices 
-are used by the \type{addObject} and \type{addArrow} statements, to 
-correctly align the objects and arrows of the commutative diagram. These 
-matrices can also be used in your own MetaPost/MetaFun code. 
+\item {\bf The \type{setupComDiags} statement} sets up the \type{objLabel} 
+(object labels), and \type{objPos} (object position) matrices, as well as 
+the \type{numRows} and \type{numCols} variables. These \type{objLabel} and 
+\type{objPos} matrices are used by the \type{addObject} and 
+\type{addArrow} statements, to correctly align the objects and arrows of 
+the commutative diagram. These matrices can also be used in your own 
+MetaPost/MetaFun code. 
 
 \item {\bf A collection of \type{addObject} statements.} The 
-\type{addObject} macro takes three arguments. The first two are the row 
-and column in the overall commutative diagram's matrix in which the object 
-is located. The third and last argument is the object label as a string, 
-which is typeset by \ConTeXt. The row and column are expected to be 
-integers and are indices into the \type{objLabel} and \type{objPos} 
-matrices. You are not required to supply an object for every row, column 
-combination. Matrix cells which have no object label are simply not 
-drawn\footnote{The object position values \emph{are} computed should they 
-be needed in your own code.}. 
+\type{addObject} macro takes upto four arguments. The first two are the 
+row and column in the overall commutative diagram's matrix in which the 
+object is located. The third argument is the object label as a string, 
+which is typeset by \ConTeXt. The optional last argument, in standard 
+MetaPost style, is specified by the text \emph{after} the closing 
+\type{")"} and the statement end, \type{";"}. Any picture modification 
+macro can be used in this optional last argument. The row and column 
+arguments are expected to be integers and are indices into the 
+\type{objLabel} and \type{objPos} matrices. You are not required to supply 
+an object for every row, column combination. Matrix cells which have no 
+object label are simply not drawn\footnote{The object position values 
+\emph{are} computed should they be needed in your own code.}. 
 
 \item {\bf The \type{drawObjects} statement.} The two arguments to the 
 \type{drawObjects} macro, are the row height, and column width 
@@ -114,8 +124,8 @@ MetaPost/MetaFun code. However your own code \emph{must} be located
 
 \stopitemize
 
-\noindent\ The order of these four sections is \emph{critical}, they will 
-not work in any other order.
+\noindent\ The order of these five sections is \emph{critical}, they will 
+not work in any other order. 
 
 \section[title=The \type{addArrow} macro]
 
@@ -141,8 +151,8 @@ the objects which the arrow connects.
 describes the tail, body and head of the arrow. Its contents and meaning 
 are described below. 
 
-\item {\bf Arrow description } \type{bend} a numerical angle to the left 
-of the straight line with which the line should bend away from the 
+\item {\bf Arrow description } \type{bend} is a numerical angle to the 
+left of the straight line with which the line should bend away from the 
 straight line. Negative angles bend to the right. 
 
 \item {\bf MetaPost/MetaFun picture command} (optional) arrow body 
@@ -228,12 +238,170 @@ line.
 \useURL[guideCDPackages][https://www.jmilne.org/not/CDGuide.html]
 
 The best way to understand how these macros can be used is to read through 
-the following examples. These examples are taken from James Milne's 
-\quote{Guide to Commutative Diagram Packages} which can be found at 
-\from[guideCDPackages]. In particular Milne's guide to drawing commutative 
-diagrams using the TikZ and/or TikZ-cd packages has the greatest number of 
-complex diagrams. We will provide examples of how to use \type{t-commdiag} 
-to draw each of these examples.
+the following examples. These examples are similar to those constructed in 
+James Milne's \quote{Guide to Commutative Diagram Packages} which can be 
+found online at \from[guideCDPackages]. In particular Milne's guide to 
+drawing commutative diagrams using the TikZ and/or TikZ-cd packages has 
+the greatest number of complex diagrams. We will provide examples of how 
+to use \type{t-commdiag} to draw each of these examples. 
+
+\subsection[title=Linear diagrams]
+
+The following diagram shows how to deal with object labels with widly 
+different sizes. We have used the optional \type{addObject} text argument 
+to modify the location of the two large formulas by shifting them down 5 
+big points. 
+
+\startbuffer
+\startformula\startMPcode{commDiag}
+  setupCommDiags ;
+  
+  addObject(1,1, "\hat{A}") ;
+  addObject(1,2, "\underset{n \in Z}{\prod} A_n") shifted (0, -5bp);
+  addObject(1,3, "\underset{n \in Z}{\prod} A_n") shifted (0, -5bp);
+  
+  drawObjects(1.75cm, 2cm);
+  
+  addArrow(1,1, 1,2, ">", 0)()()("", 0.5, ) ;
+  addArrow(1,2, 1,3, ">", 0)()()("", 0.5, ) ;
+\stopMPcode\stopformula
+\stopbuffer
+
+\processTEXbuffer
+
+\typebuffer
+
+The following diagram shows how to bend arrows using the \type{addArrow} 
+\quote{bend} argument. This example also shows how to use the 
+\type{computeArrow} and \type{drawCDArrow} macros\footnote{Documented in 
+the Macros chapter below.} provided by the \type{t-commdiag} module. In 
+this case the \quote{natural morphism} arrow is not between any pair of 
+objects in the diagram, so we have used our own additional 
+MetaPost/MetaFun code to draw this morphism. Note that we have used the 
+\type{t-commdiag} internal variable, \type{drawFilledArrows}, to draw the 
+\quote{natural morphism} with an open arrow head. 
+
+\startbuffer
+\startformula\startMPcode{commDiag}
+  setupCommDiags ;
+  
+  addObject(1,1, "A") ;
+  addObject(1,2, "B") ;
+  
+  drawObjects(1.75cm, 2cm);
+  
+  addArrow(1,1, 1,2, ">",  60)()()("", 0.5, );
+  addArrow(1,1, 1,2, ">", -60)()()("", 0.5, );
+  
+  save upperArrow, lowerArrow, anArrow;
+  path upperArrow, lowerArrow, anArrow;
+  %
+  upperArrow := computeArrow(1,1, 1,2,  50);
+  lowerArrow := computeArrow(1,1, 1,2, -50);
+  anArrow    := 
+    point 0.5*length(upperArrow) of upperArrow --
+    point 0.5*length(lowerArrow) of lowerArrow;
+  %
+  drawFilledArrows := 0;
+  drawCDArrow("=>", anArrow)()();
+  drawFilledArrows := 1;
+\stopMPcode\stopformula
+\stopbuffer
+
+\processTEXbuffer
+
+\typebuffer
+
+In the next two diagrams we use the optional \quote{whole arrow modifiers} 
+to shift the arrows up or down from the standard arrow positions. 
+
+\startbuffer
+\startformula\startMPcode{commDiag}
+  setupCommDiags ;
+  
+  addObject(1,1, "Y \times_X Y") ;
+  addObject(1,2, "Y") ;
+  addObject(1,3, "X") ;
+    
+  drawObjects(1.75cm, 2.5cm);
+  
+  addArrow(1,1, 1,2, ">", 0)()()("p_1", 0.5, top) shifted (0, 3bp);
+  addArrow(1,1, 1,2, ">", 0)()()("p_2", 0.5, bot) shifted (0, -3bp);
+  
+  addArrow(1,2, 1,3, ">", 0)()()("", 0.5, );
+\stopMPcode\stopformula
+\stopbuffer
+
+\processTEXbuffer
+
+\typebuffer
+
+\blank[2*big]
+
+\startbuffer
+\startformula\startMPcode{commDiag}
+  setupCommDiags ;
+  
+  addObject(1,1, "\text{\sans S}(Z)") ;
+  addObject(1,2, "\text{\sans S}(X)") ;
+  addObject(1,3, "\text{\sans S}(U)") ;
+    
+  drawObjects(1.75cm, 2.5cm);
+  
+  addArrow(1,2, 1,1, ">", 0)()()("i^*", 0.5, top) shifted (0, 10bp);
+  addArrow(1,1, 1,2, ">", 0)()()("i_*", 0.5,    ) ;
+  addArrow(1,2, 1,1, ">", 0)()()("i^!", 0.5, bot) shifted (0, -10bp);
+  
+  addArrow(1,3, 1,2, ">", 0)()()("i^*", 0.5, top) shifted (0, 10bp);
+  addArrow(1,2, 1,3, ">", 0)()()("i_*", 0.5,    ) ;
+  addArrow(1,3, 1,2, ">", 0)()()("i^!", 0.5, bot) shifted (0, -10bp);
+\stopMPcode\stopformula
+\stopbuffer
+
+\processTEXbuffer
+
+\typebuffer
+
+\subsection[title=Rectangular diagrams]
+
+The following diagram shows how to adjust the column width to accomodate 
+the \quote{very long label} using the \type{drawObjects} column width 
+argument. 
+
+\startbuffer
+\startformula\startMPcode{commDiag}
+  setupCommDiags ;
+  
+  addObject(1,1, "A") ;
+  addObject(1,2, "B") ;
+  addObject(1,3, "C") ;
+  addObject(2,1, "D") ;
+  addObject(2,2, "E") ;
+  addObject(2,3, "F") ;
+  
+  drawObjects(1.75cm, 4cm);
+  
+  addArrow(1,1, 1,2, ">", 0)()()("", 0.5, );
+  addArrow(1,2, 1,3, ">", 0)()()("\text{very long label}", 0.5, top);
+  
+  addArrow(2,1, 2,2, ">", 0)()()("", 0.5, );
+  addArrow(2,2, 2,3, ">", 0)()()("", 0.5, );
+  
+  addArrow(1,1, 2,1, ">", 0)()()("", 0.5, );
+  addArrow(1,2, 2,2, ">", 0)()()("", 0.5, );
+  addArrow(1,3, 2,3, ">", 0)()()("", 0.5, );
+\stopMPcode\stopformula
+\stopbuffer
+
+\processTEXbuffer
+
+\typebuffer
+\subsection[title=Triangular diagrams]
+
+The following diagram shows how to position multiple arrow labels both 
+above and below the line of the arrow. This example also shows how to draw 
+an arrow with dots by using the (optional) \quote{MetaPost/MetaFun body 
+modifiers}. 
 
 \startbuffer
 \startformula\startMPcode{commDiag}
@@ -269,84 +437,7 @@ to draw each of these examples.
 
 \typebuffer
 
-\startbuffer
-\startformula\startMPcode{commDiag}
-  setupCommDiags ;
-  
-  addObject(1,1, "A") ;
-  addObject(1,2, "B") ;
-  addObject(1,3, "C") ;
-  addObject(2,1, "D") ;
-  addObject(2,2, "E") ;
-  addObject(2,3, "F") ;
-  
-  drawObjects(1.75cm, 4cm);
-  
-  addArrow(1,1, 1,2, ">", 0)()()("", 0.5, );
-  addArrow(1,2, 1,3, ">", 0)()()("\text{very long label}", 0.5, top);
-  
-  addArrow(2,1, 2,2, ">", 0)()()("", 0.5, );
-  addArrow(2,2, 2,3, ">", 0)()()("", 0.5, );
-  
-  addArrow(1,1, 2,1, ">", 0)()()("", 0.5, );
-  addArrow(1,2, 2,2, ">", 0)()()("", 0.5, );
-  addArrow(1,3, 2,3, ">", 0)()()("", 0.5, );
-\stopMPcode\stopformula
-\stopbuffer
-
-\processTEXbuffer
-
-\typebuffer
-
-\startbuffer
-\startformula\startMPcode{commDiag}
-  setupCommDiags ;
-  
-  addObject(1,1, "\hat{A}") ;
-  addObject(1,2, "\underset{n \in Z}{\prod} A_n") shifted (0, -5bp);
-  addObject(1,3, "\underset{n \in Z}{\prod} A_n") shifted (0, -5bp);
-  
-  drawObjects(1.75cm, 2cm);
-  
-  addArrow(1,1, 1,2, ">", 0)()()("", 0.5, ) ;
-  addArrow(1,2, 1,3, ">", 0)()()("", 0.5, ) ;
-\stopMPcode\stopformula
-\stopbuffer
-
-\processTEXbuffer
-
-\typebuffer
-
-\startbuffer
-\startformula\startMPcode{commDiag}
-  setupCommDiags ;
-  
-  addObject(1,1, "A") ;
-  addObject(1,2, "B") ;
-  
-  drawObjects(1.75cm, 2cm);
-  
-  addArrow(1,1, 1,2, ">",  60)()()("", 0.5, );
-  addArrow(1,1, 1,2, ">", -60)()()("", 0.5, );
-  
-  save upperArrow, lowerArrow, anArrow;
-  path upperArrow, lowerArrow, anArrow;
-  %
-  upperArrow := computeArrow(1,1, 1,2,  50);
-  lowerArrow := computeArrow(1,1, 1,2, -50);
-  anArrow    := 
-    point 0.5*length(upperArrow) of upperArrow --
-    point 0.5*length(lowerArrow) of lowerArrow;
-  %
-  drawFilledArrows := 0;
-  drawCDArrow("=>", anArrow)()();
-  drawFilledArrows := 1;
-\stopMPcode\stopformula
-\stopbuffer
-
-\processTEXbuffer
-
-\typebuffer
+\subsection[title=Complex diagrams]
 
 \startbuffer
 \startformula\startMPcode{commDiag}
@@ -380,6 +471,8 @@ to draw each of these examples.
 
 \typebuffer
 
+\blank[2*big]
+
 \startbuffer
 \startformula\startMPcode{commDiag}
   setupCommDiags ;
@@ -410,6 +503,8 @@ to draw each of these examples.
 
 \typebuffer
 
+\blank[2*big]
+
 \startbuffer
 \startformula\startMPcode{commDiag}
   setupCommDiags ;
@@ -434,6 +529,8 @@ to draw each of these examples.
 \processTEXbuffer
 
 \typebuffer
+
+\blank[2*big]
 
 \startbuffer
 \startformula\startMPcode{commDiag}
@@ -463,50 +560,13 @@ to draw each of these examples.
 
 \typebuffer
 
-\startbuffer
-\startformula\startMPcode{commDiag}
-  setupCommDiags ;
-  
-  addObject(1,1, "Y \times_X Y") ;
-  addObject(1,2, "Y") ;
-  addObject(1,3, "X") ;
-    
-  drawObjects(1.75cm, 2.5cm);
-  
-  addArrow(1,1, 1,2, ">", 0)()()("p_1", 0.5, top) shifted (0, 3bp);
-  addArrow(1,1, 1,2, ">", 0)()()("p_2", 0.5, bot) shifted (0, -3bp);
-  
-  addArrow(1,2, 1,3, ">", 0)()()("", 0.5, );
-\stopMPcode\stopformula
-\stopbuffer
+\blank[2*big]
 
-\processTEXbuffer
-
-\typebuffer
-
-\startbuffer
-\startformula\startMPcode{commDiag}
-  setupCommDiags ;
-  
-  addObject(1,1, "\text{\sans S}(Z)") ;
-  addObject(1,2, "\text{\sans S}(X)") ;
-  addObject(1,3, "\text{\sans S}(U)") ;
-    
-  drawObjects(1.75cm, 2.5cm);
-  
-  addArrow(1,2, 1,1, ">", 0)()()("i^*", 0.5, top) shifted (0, 10bp);
-  addArrow(1,1, 1,2, ">", 0)()()("i_*", 0.5,    ) ;
-  addArrow(1,2, 1,1, ">", 0)()()("i^!", 0.5, bot) shifted (0, -10bp);
-  
-  addArrow(1,3, 1,2, ">", 0)()()("i^*", 0.5, top) shifted (0, 10bp);
-  addArrow(1,2, 1,3, ">", 0)()()("i_*", 0.5,    ) ;
-  addArrow(1,3, 1,2, ">", 0)()()("i^!", 0.5, bot) shifted (0, -10bp);
-\stopMPcode\stopformula
-\stopbuffer
-
-\processTEXbuffer
-
-\typebuffer
+The following diagram shows how to make direct use of the \type{objPos} 
+matrix values to construct a path with the correct shape to suit the 
+diagram. We then use this path to draw the arrow and its label using the 
+\type{drawCDArrow} and \type{drawArrowLabel} macros\footnote{Documented in 
+the Macros chapter below.}. 
 
 \startbuffer
 \startformula\startMPcode{commDiag}
@@ -540,7 +600,6 @@ to draw each of these examples.
   addArrow(1,2, 1,3, ">", 0)()()("", 0.5, ) withcolor red;
   addArrow(1,3, 1,4, ">", 0)()()("", 0.5, ) withcolor red;
   addArrow(1,4, 1,5, ">", 0)()()("", 0.5, ) withcolor red;
-  addArrow(1,5, 4,3, ">", 135)()()("d", 0.5, ulft) withcolor red;
   
   addArrow(1,3, 2,3, ">", 0)()()("", 0.5, );
   addArrow(1,4, 2,4, ">", 0)()()("", 0.5, );
@@ -566,6 +625,16 @@ to draw each of these examples.
   addArrow(4,4, 4,5, ">", 0)()()("", 0.5, ) withcolor red;
   addArrow(4,5, 4,6, ">", 0)()()("", 0.5, ) withcolor red;
   addArrow(4,6, 4,7, ">", 0)()()("", 0.5, ) withcolor red;
+ 
+  save anArrow; path anArrow;
+  anArrow := 
+    objPos[1][5] shifted (0.75cm, 0) --
+    objPos[1][5] shifted (1cm, 0){dir 0} ..
+    tension 5 ..
+    {dir 0}objPos[4][3] shifted (-1cm, 0) -- 
+    objPos[4][3] shifted (-0.75cm, 0);
+  drawCDArrow(">", anArrow)()() withcolor red;
+  drawArrowLabel("d", 0.51, ulft, anArrow) withcolor red;
 
 \stopMPcode\stopformula
 \stopbuffer
@@ -573,6 +642,5 @@ to draw each of these examples.
 \processTEXbuffer
 
 \typebuffer
-
 
 \stopchapter 

@@ -33,7 +33,9 @@
       (numCols < j) :
       message("numRows = "&decimal numRows);
       message("numCols = "&decimal numCols);
-      errmessage("incorrect row or column in ("&decimal i&", "&decimal j&")!");
+      errmessage(
+        "incorrect row or column in ("&
+        decimal i&", "&decimal j&")!");
     fi;
   enddef;
   
@@ -60,10 +62,11 @@
   %   "How to create a wavy lines with MetaPost?"
   % see: https://tex.stackexchange.com/a/162406
   %
-  % Be reasonable with these lengths.  If you use `drawarrow` then 
-  % you should ensure that s_lambda > ahlength
+  
+  % Be reasonable with these lengths. If you use `drawarrow`
+  % then you should ensure that sArrowlambda > ahlength 
 
-  newinternal sArrowLambda, sArrowAngle;
+newinternal sArrowLambda, sArrowAngle;
   sArrowLambda := 6;  % the length of the waves
   sArrowAngle  := 45; % the angle of attack 
 
@@ -115,16 +118,23 @@
   %
 
   newinternal sahFraction;
-  sahFraction := 0.9; % default second arrowhead point 90% of arrow path
+  % default second arrowhead point 90% of arrow path
+  sahFraction := 0.9; 
   
   %% Forward arrow heads/tails ...
   
   vardef firstArrowHead expr p =
     save q,e; path q; pair e;
     e := point length p of p;
-    q := gobble(p shifted -e cutafter makepath(pencircle scaled 2ahlength))
-      cuttings;
-    (q rotated .5ahangle & reverse q rotated -.5ahangle -- cycle)  shifted e
+    q := gobble(
+      p shifted -e 
+      cutafter makepath(pencircle scaled 2ahlength)
+    ) cuttings;
+    (
+      q rotated .5ahangle &
+      reverse q rotated -.5ahangle --
+      cycle
+    )  shifted e
   enddef;
   
   vardef secondArrowHead expr p =
@@ -134,22 +144,32 @@
       subpath (0, (sahFraction*length p)) of p shifted -e 
       cutafter makepath(pencircle scaled 2ahlength)
     ) cuttings;
-    (q rotated .5ahangle & reverse q rotated -.5ahangle -- cycle)  shifted e
+    (
+      q rotated .5ahangle &
+      reverse q rotated -.5ahangle --
+      cycle
+    )  shifted e
   enddef;
   
   vardef firstArrowTail expr p =
     save q,eA, eB; path q; pair eA, eB;
     eA := point 0 of p;
-    q := gobble(p shifted -eA cutbefore makepath(pencircle scaled 2ahlength))
-      cuttings;
+    q := gobble(
+      p shifted -eA
+      cutbefore makepath(pencircle scaled 2ahlength)
+    ) cuttings;
     eB := point length(q) of q;
     q := q shifted -eB ;
-    (q rotated .5ahangle & reverse q rotated -.5ahangle -- cycle)
-      shifted (eA + eB)
+    (
+      q rotated .5ahangle &
+      reverse q rotated -.5ahangle --
+      cycle
+    ) shifted (eA + eB)
   enddef;
   
   vardef secondArrowTail expr p =
-    save q,eA, eB, aFraction; path q; pair eA, eB; numeric aFraction;
+    save q,eA, eB, aFraction; path q;
+    pair eA, eB; numeric aFraction;
     aFraction := 2*(1.0 - sahFraction);
     eA := point (aFraction * length p) of p;
     q := gobble(
@@ -158,8 +178,11 @@
     ) cuttings;
     eB := point length(q) of q;
     q := q shifted -eB ;
-    (q rotated .5ahangle & reverse q rotated -.5ahangle -- cycle)
-      shifted (eA + eB)
+    (
+      q rotated .5ahangle &
+      reverse q rotated -.5ahangle --
+      cycle
+    ) shifted (eA + eB)
   enddef;
 
   %% Reversed arrow heads/tails ...
@@ -173,8 +196,11 @@
     ) cuttings;
     eB := point 0 of q ;
     q := q shifted -eB ;
-    ( reverse q rotated .5ahangle & q rotated -.5ahangle -- cycle)
-      shifted (eA + eB)
+    (
+      reverse q rotated .5ahangle &
+      q rotated -.5ahangle --
+      cycle
+    ) shifted (eA + eB)
   enddef;
 
   vardef secondReversedArrowHead expr p =
@@ -186,8 +212,11 @@
     ) cuttings;
     eB := point 0 of q ;
     q := q shifted -eB ;
-    (reverse q rotated .5ahangle & q rotated -.5ahangle -- cycle)
-      shifted (eA + eB)
+    (
+      reverse q rotated .5ahangle &
+      q rotated -.5ahangle --
+      cycle
+    ) shifted (eA + eB)
   enddef;
 
   vardef firstReversedArrowTail expr p =
@@ -197,12 +226,16 @@
       p shifted -eA
       cutbefore makepath(pencircle scaled 2ahlength)
     ) cuttings;
-    (reverse q rotated .5ahangle & q rotated -.5ahangle -- cycle)
-      shifted eA
+    (
+      reverse q rotated .5ahangle &
+      q rotated -.5ahangle --
+      cycle
+    ) shifted eA
   enddef;
   
   vardef secondReversedArrowTail expr p =
-    save q,eA, eB, aFraction; path q; pair eA, eB; numeric aFraction;
+    save q,eA, eB, aFraction; path q;
+    pair eA, eB; numeric aFraction;
     aFraction := 2*(1.0 - sahFraction);
     eA := point (aFraction * length p) of p;
     q := gobble(
@@ -211,8 +244,11 @@
     ) cuttings;
     eB := point 0 of q;
     q := q shifted -eB ;
-    ( reverse q rotated .5ahangle & q rotated -.5ahangle -- cycle)
-      shifted (eA + eB)
+    (
+      reverse q rotated .5ahangle &
+      q rotated -.5ahangle --
+      cycle
+    ) shifted (eA + eB)
   enddef;
   
   %% Dot heads/tails ...
@@ -220,14 +256,18 @@
   vardef dotHead expr p =
     save q,eA,eB; path q; pair eA, eB;
     eA := point length p of p;
-    eB := p shifted -eA intersectionpoint makepath(pencircle scaled ahlength) ;
+    eB :=
+      p shifted -eA
+      intersectionpoint makepath(pencircle scaled ahlength) ;
     makepath(pencircle scaled ahlength) shifted (eA+eB)
   enddef;
   
   vardef dotTail expr p =
     save q,eA,eB; path q; pair eA, eB;
     eA := point 0 of p;
-    eB := p shifted -eA intersectionpoint makepath(pencircle scaled ahlength) ;
+    eB :=
+      p shifted -eA
+      intersectionpoint makepath(pencircle scaled ahlength) ;
     makepath(pencircle scaled ahlength) shifted (eA+eB)
   enddef;
 
@@ -260,7 +300,8 @@
     checkRowsCols(fRow, fCol);
     checkRowsCols(tRow, tCol);
     %
-    outAngle := angle (objPos[tRow][tCol] - objPos[fRow][fCol]);
+    outAngle :=
+      angle (objPos[tRow][tCol] - objPos[fRow][fCol]);
     anArrow := 
       objPos[fRow][fCol]{dir (outAngle+bend)} .. 
       {dir (outAngle-bend)}objPos[tRow][tCol];
@@ -377,31 +418,43 @@
           fi;
         elseif aTail = 62 : % ">"
           if drawFilledArrows = 1:
-            filldraw firstArrowTail anArrow arrowText allText ;
+            filldraw firstArrowTail
+              anArrow arrowText allText ;
           else :
-            unfill firstArrowTail anArrow arrowText allText ;
-            draw firstArrowTail anArrow arrowText allText ;
+            unfill firstArrowTail
+              anArrow arrowText allText ;
+            draw firstArrowTail
+              anArrow arrowText allText ;
           fi;
         elseif aTail = 60 : % "<"
           if drawFilledArrows = 1 :
-            filldraw firstReversedArrowTail anArrow arrowText allText ;
+            filldraw firstReversedArrowTail
+              anArrow arrowText allText ;
           else :
-            unfill firstReversedArrowTail anArrow arrowText allText ;
-            draw firstReversedArrowTail anArrow arrowText allText ;
+            unfill firstReversedArrowTail
+              anArrow arrowText allText ;
+            draw firstReversedArrowTail
+              anArrow arrowText allText ;
           fi;
         elseif aTail = 93 : % "]"
           if drawFilledArrows = 1 :
-            filldraw secondArrowTail anArrow arrowText allText ;
+            filldraw secondArrowTail
+              anArrow arrowText allText ;
           else :
-            unfill secondArrowTail anArrow arrowText allText ;
-            draw secondArrowTail anArrow arrowText allText ;
+            unfill secondArrowTail
+              anArrow arrowText allText ;
+            draw secondArrowTail
+              anArrow arrowText allText ;
           fi;
         elseif aTail = 91 : % "["
           if drawFilledArrows = 1 :
-            filldraw secondReversedArrowTail anArrow arrowText allText ;
+            filldraw secondReversedArrowTail
+              anArrow arrowText allText ;
           else :
-            unfill secondReversedArrowTail anArrow arrowText allText ;
-            draw secondReversedArrowTail anArrow arrowText allText ;
+            unfill secondReversedArrowTail
+              anArrow arrowText allText ;
+            draw secondReversedArrowTail
+              anArrow arrowText allText ;
           fi;
         fi ;
       endfor ;
@@ -416,38 +469,53 @@
             arrowText allText ;
         elseif aHead = 111 : % "o"
           if drawFilledArrows = 1 :
-            filldraw dotHead anArrow arrowText allText ;
+            filldraw dotHead anArrow
+              arrowText allText ;
           else :
-            unfill dotHead anArrow arrowText allText ;
-            draw dotHead anArrow arrowText allText ;
+            unfill dotHead anArrow
+              arrowText allText ;
+            draw dotHead anArrow
+              arrowText allText ;
           fi;
         elseif aHead = 62 : % ">"
           if drawFilledArrows = 1 :
-            filldraw firstArrowHead anArrow arrowText allText ;
+            filldraw firstArrowHead
+              anArrow arrowText allText ;
           else :
-            unfill firstArrowHead anArrow arrowText allText ;
-            draw firstArrowHead anArrow arrowText allText ;
+            unfill firstArrowHead
+              anArrow arrowText allText ;
+            draw firstArrowHead
+              anArrow arrowText allText ;
           fi;
         elseif aHead = 60 : % "<"
           if drawFilledArrows = 1 :
-            filldraw firstReversedArrowHead anArrow arrowText allText ;
+            filldraw firstReversedArrowHead
+              anArrow arrowText allText ;
           else :
-            unfill firstReversedArrowHead anArrow arrowText allText ;
-            draw firstReversedArrowHead anArrow arrowText allText ;
+            unfill firstReversedArrowHead
+              anArrow arrowText allText ;
+            draw firstReversedArrowHead
+              anArrow arrowText allText ;
           fi;
         elseif aHead = 93 : % "]"
           if drawFilledArrows = 1 :
-            filldraw secondArrowHead anArrow arrowText allText ;
+            filldraw secondArrowHead
+              anArrow arrowText allText ;
           else :
-            unfill secondArrowHead anArrow arrowText allText ;
-            draw secondArrowHead anArrow arrowText allText ;
+            unfill secondArrowHead
+              anArrow arrowText allText ;
+            draw secondArrowHead
+              anArrow arrowText allText ;
           fi;
         elseif aHead = 91 : % "["
           if drawFilledArrows = 1 :
-            filldraw secondReversedArrowHead anArrow arrowText allText ;
+            filldraw secondReversedArrowHead
+              anArrow arrowText allText ;
           else :
-            unfill secondReversedArrowHead anArrow arrowText allText ;
-            draw secondReversedArrowHead anArrow arrowText allText ;
+            unfill secondReversedArrowHead
+              anArrow arrowText allText ;
+            draw secondReversedArrowHead
+              anArrow arrowText allText ;
           fi;
         fi ;
       endfor ;
@@ -486,9 +554,7 @@
       draw imageLabel;
     fi;
   enddef;
-    
-  % The "drawarrow" implementation is based upon that in plain.mp (see above)
-  %
+
   vardef addArrow
     (expr fRow, fCol, tRow, tCol)
     (expr arrowDecorations, bend)
@@ -502,9 +568,11 @@
     %
     anArrow := computeArrow(fRow, fCol, tRow, tCol, bend);
     %
-    drawCDArrow(arrowDecorations, anArrow)(bodyText)(arrowText) allText ;
+    drawCDArrow(arrowDecorations, anArrow)
+      (bodyText)(arrowText) allText ;
     %
-    drawArrowLabel(aLabel, labelPositionExpr, labelSuffix, anArrow) allText ;
+    drawArrowLabel
+      (aLabel, labelPositionExpr, labelSuffix, anArrow) allText ;
   enddef;
 \stopMPdefinitions
 

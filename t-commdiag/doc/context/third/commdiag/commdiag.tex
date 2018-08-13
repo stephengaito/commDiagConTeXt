@@ -25,15 +25,6 @@
 % indent paragraphs after formulas if there is a blank space in between
 \setupformulas[indentnext=auto] 
 
-\usebtxdataset[contestsBib.lua]
-\usebtxdefinitions[apa]
-\setupbtxlist[apa][
-  alternative=paragraph,
-  width=fit,
-  distance=.5em,
-  margin=3em % hanging list
-]
-
 \startproduct
 
 \startdocument[title=Commutative Diagrams for \ConTeXt]
@@ -45,12 +36,6 @@
 \component macros
 
 \component conclusion
-
-\startbackmatter
-  \startchapter[title=Bibliography]
-    \placelistofpublications
-  \stopchapter
-\stopbackmatter
 
 \stopdocument
 \stopproduct
