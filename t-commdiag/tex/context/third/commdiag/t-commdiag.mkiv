@@ -315,6 +315,38 @@
     (reverse q rotated 90 & q rotated 270) shifted e
   enddef;
  
+  vardef drawArrowLabel
+    (expr aLabel, labelPositionExpr)
+    (suffix labelSuffix)
+    (expr anArrow)
+    text allText =
+    %
+    save imageLabel;
+    picture imageLabel;
+    %
+    if numeric(labelPositionExpr) :
+      if (labelPositionExpr) <= 0 :
+        labelPosition := 0.5 ;
+      elseif (labelPositionExpr) >= 1 :
+        labelPosition := 0.5
+      else :
+        labelPosition := labelPositionExpr ;
+      fi ;
+    else :
+      labelPosition := 0.5;
+    fi ;
+    if 0 < length(aLabel) :
+      imageLabel := image(
+        label labelSuffix (
+          thelabel("$"&aLabel&"$", origin ) ,
+          point labelPosition*length(anArrow) of anArrow
+        ) allText ;
+      );
+      unfill bbox imageLabel;
+      draw imageLabel;
+    fi;
+  enddef;
+ 
   % The "drawarrow" implementation is based upon that in plain.mp (see above)
   %
   vardef addArrow
@@ -330,13 +362,11 @@
     save fromTails, body, toHeads;
     save barAdjust;
     save anArrow;
-    save imageLabel;
     %
     numeric aTail, aHead, outAngle, labelPosition;
     string fromTails, body, toHeads;
     pair barAdjust;
     path anArrow;
-    picture imageLabel;
     %
     checkRowsCols(fRow, fCol);
     checkRowsCols(tRow, tCol);
@@ -464,27 +494,7 @@
       endfor ;
     fi ;
     %
-    if numeric(labelPositionExpr) :
-      if (labelPositionExpr) <= 0 :
-        labelPosition := 0.5 ;
-      elseif (labelPositionExpr) >= 1 :
-        labelPosition := 0.5
-      else :
-        labelPosition := labelPositionExpr ;
-      fi ;
-    else :
-      labelPosition := 0.5;
-    fi ;
-    if 0 < length(aLabel) :
-      imageLabel := image(
-        label labelSuffix (
-          thelabel("$"&aLabel&"$", origin ) ,
-          point labelPosition*length(anArrow) of anArrow
-        ) allText ;
-      );
-      unfill bbox imageLabel;
-      draw imageLabel;
-    fi;
+    drawArrowLabel(aLabel, labelPositionExpr, labelSuffix, anArrow) allText ;
   enddef;
 \stopMPdefinitions
 
