@@ -237,7 +237,6 @@ to draw each of these examples.
 
 \startbuffer
 \startformula\startMPcode{commDiag}
-
   setupCommDiags ;
   
   addObject(1,1, "A") ;
@@ -272,7 +271,6 @@ to draw each of these examples.
 
 \startbuffer
 \startformula\startMPcode{commDiag}
-
   setupCommDiags ;
   
   addObject(1,1, "A") ;
@@ -302,10 +300,9 @@ to draw each of these examples.
 
 \startbuffer
 \startformula\startMPcode{commDiag}
-
   setupCommDiags ;
   
-  addObject(1,1, "\hat{A}") ;
+  addObject(1,1, "\underset{\mathstrut}{\hat{A}}") ;
   addObject(1,2, "\underset{n \in Z}{\prod} A_n") ;
   addObject(1,3, "\underset{n \in Z}{\prod} A_n") ;
   
@@ -320,9 +317,10 @@ to draw each of these examples.
 
 \typebuffer
 
+{\bf \color[red]\ Add natural transformation arrow}
+
 \startbuffer
 \startformula\startMPcode{commDiag}
-
   setupCommDiags ;
   
   addObject(1,1, "A") ;
@@ -341,7 +339,6 @@ to draw each of these examples.
 
 \startbuffer
 \startformula\startMPcode{commDiag}
-
   setupCommDiags ;
   
   addObject(1,2, "A") ;
@@ -371,5 +368,200 @@ to draw each of these examples.
 \processTEXbuffer
 
 \typebuffer
+
+\startbuffer
+\startformula\startMPcode{commDiag}
+  setupCommDiags ;
+  
+  addObject(1,1, "T") ;
+  
+  addObject(2,2, "X \times_Z Y") ;
+  addObject(2,3, "X") ;
+  
+  addObject(3,2, "Y") ;
+  addObject(3,3, "Z") ;
+    
+  drawObjects(1.75cm, 2.5cm);
+  
+  addArrow(1,1, 2,3, ">", 30)()()("x", 0.5, top);
+  addArrow(1,1, 2,2, ">", 0)
+    (dashed withdots scaled 0.5)()("(x,y)", 0.5, );
+  addArrow(1,1, 3,2, ">", -30)()()("y", 0.5, bot);
+
+  addArrow(2,2, 2,3, ">", 0)()()("p", 0.5, top);
+  addArrow(2,2, 3,2, ">", 0)()()("q", 0.5, rt);
+  addArrow(2,3, 3,3, ">", 0)()()("f", 0.5, rt);
+  addArrow(3,2, 3,3, ">", 0)()()("g", 0.5, top);
+\stopMPcode\stopformula
+\stopbuffer
+
+\processTEXbuffer
+
+\typebuffer
+
+\startbuffer
+\startformula\startMPcode{commDiag}
+  setupCommDiags ;
+  
+  addObject(2,1, "0") ;
+  addObject(2,2, "\text{Br}(L/K)") ;
+  addObject(2,3, "\bigoplus_v \text{Br}(L^v/K_v)") ;
+  
+  addObject(1,4, "H^2(L/K)") ;
+  addObject(3,4, "\mathbb{Q}/\mathbb{Z}") ;
+    
+  drawObjects(1.75cm, 3cm);
+  
+  addArrow(2,1, 2,2, ">", 0)()()("", 0.5, );
+  addArrow(2,2, 2,3, ">", 0)()()("", 0.5, );
+  
+  addArrow(2,3, 1,4, ">", 0)()()("", 0.5, );
+  addArrow(2,3, 3,4, ">", 0)()()("", 0.5, );
+\stopMPcode\stopformula
+\stopbuffer
+
+\processTEXbuffer
+
+\typebuffer
+
+\startbuffer
+\startformula\startMPcode{commDiag}
+  setupCommDiags ;
+  
+  addObject(1,3, "X \otimes (Y \otimes (Z \otimes T))") ;
+  
+  addObject(2,1, "X \otimes ((Y \otimes Z) \otimes T)") ;
+  addObject(2,5, "(X \otimes Y) \otimes (Z \otimes T)") ;
+  
+  addObject(3,2, "(X \otimes (Y \otimes Z)) \otimes T") ;
+  addObject(3,4, "((X \otimes Y) \otimes Z) \otimes T") ;
+    
+  drawObjects(1.75cm, 2.5cm);
+  
+  addArrow(1,3, 2,1, ">", 0)()()("1 \otimes \phi", 0.5, ulft);
+  addArrow(1,3, 2,5, ">", 0)()()("\phi", 0.5, urt);
+  
+  addArrow(2,1, 3,2, ">", 0)()()("\phi", 0.5, llft);
+  addArrow(2,5, 3,4, ">", 0)()()("\phi", 0.5, lrt);
+  
+  addArrow(3,2, 3,4, ">", 0)()()("\phi \otimes 1", 0.5, top);
+\stopMPcode\stopformula
+\stopbuffer
+
+\processTEXbuffer
+
+\typebuffer
+
+\startbuffer
+\startformula\startMPcode{commDiag}
+  setupCommDiags ;
+  
+  addObject(1,1, "Y \times_X Y") ;
+  addObject(1,2, "Y") ;
+  addObject(1,3, "X") ;
+    
+  drawObjects(1.75cm, 2.5cm);
+  
+  addArrow(1,1, 1,2, ">", 0)()()("p_1", 0.5, top) shifted (0, 3bp);
+  addArrow(1,1, 1,2, ">", 0)()()("p_2", 0.5, bot) shifted (0, -3bp);
+  
+  addArrow(1,2, 1,3, ">", 0)()()("", 0.5, );
+\stopMPcode\stopformula
+\stopbuffer
+
+\processTEXbuffer
+
+\typebuffer
+
+\startbuffer
+\startformula\startMPcode{commDiag}
+  setupCommDiags ;
+  
+  addObject(1,1, "\text{\sans S}(Z)") ;
+  addObject(1,2, "\text{\sans S}(X)") ;
+  addObject(1,3, "\text{\sans S}(U)") ;
+    
+  drawObjects(1.75cm, 2.5cm);
+  
+  addArrow(1,2, 1,1, ">", 0)()()("i^*", 0.5, top) shifted (0, 10bp);
+  addArrow(1,1, 1,2, ">", 0)()()("i_*", 0.5,    ) ;
+  addArrow(1,2, 1,1, ">", 0)()()("i^!", 0.5, bot) shifted (0, -10bp);
+  
+  addArrow(1,3, 1,2, ">", 0)()()("i^*", 0.5, top) shifted (0, 10bp);
+  addArrow(1,2, 1,3, ">", 0)()()("i_*", 0.5,    ) ;
+  addArrow(1,3, 1,2, ">", 0)()()("i^!", 0.5, bot) shifted (0, -10bp);
+\stopMPcode\stopformula
+\stopbuffer
+
+\processTEXbuffer
+
+\typebuffer
+
+\startbuffer
+\startformula\startMPcode{commDiag}
+  setupCommDiags ;
+  
+  addObject(1,1, "0") ;
+  addObject(1,2, "\text{Ker}\; f") ;
+  addObject(1,3, "\text{Ker}\: a") ;
+  addObject(1,4, "\text{Ker}\: b") ;
+  addObject(1,5, "\text{Ker}\: b") ;
+
+  addObject(2,3, "A") ;
+  addObject(2,4, "B") ;
+  addObject(2,5, "C") ;
+  addObject(2,6, "0") ;
+  
+  addObject(3,2, "0") ;
+  addObject(3,3, "A'") ;
+  addObject(3,4, "B'") ;
+  addObject(3,5, "C'") ;
+
+  addObject(4,3, "\text{Coker}\: a") ;
+  addObject(4,4, "\text{Coker}\: b") ;
+  addObject(4,5, "\text{Coker}\: c") ;
+  addObject(4,6, "\text{Coker}\: g'") ;
+  addObject(4,7, "0") ;
+    
+  drawObjects(1.75cm, 2cm);
+  
+  addArrow(1,1, 1,2, ">", 0)()()("", 0.5, ) withcolor red;
+  addArrow(1,2, 1,3, ">", 0)()()("", 0.5, ) withcolor red;
+  addArrow(1,3, 1,4, ">", 0)()()("", 0.5, ) withcolor red;
+  addArrow(1,4, 1,5, ">", 0)()()("", 0.5, ) withcolor red;
+  addArrow(1,5, 4,3, ">", 135)()()("d", 0.5, ulft) withcolor red;
+  
+  addArrow(1,3, 2,3, ">", 0)()()("", 0.5, );
+  addArrow(1,4, 2,4, ">", 0)()()("", 0.5, );
+  addArrow(1,5, 2,5, ">", 0)()()("", 0.5, );
+  
+  addArrow(2,3, 2,4, ">", 0)()()("f", 0.5, top) withcolor blue;
+  addArrow(2,4, 2,5, ">", 0)()()("g", 0.5, top) withcolor blue;
+  addArrow(2,5, 2,6, ">", 0)()()("", 0.5, ) withcolor blue;
+
+  addArrow(2,3, 3,3, ">", 0)()()("a", 0.5, rt) withcolor blue;
+  addArrow(2,4, 3,4, ">", 0)()()("b", 0.5, rt) withcolor blue;
+  addArrow(2,5, 3,5, ">", 0)()()("c", 0.5, rt) withcolor blue;
+
+  addArrow(3,2, 3,3, ">", 0)()()("", 0.5, ) withcolor blue;
+  addArrow(3,3, 3,4, ">", 0)()()("f'", 0.5, bot) withcolor blue;
+  addArrow(3,4, 3,5, ">", 0)()()("g'", 0.5, bot) withcolor blue;
+
+  addArrow(3,3, 4,3, ">", 0)()()("", 0.5, );
+  addArrow(3,4, 4,4, ">", 0)()()("", 0.5, );
+  addArrow(3,5, 4,5, ">", 0)()()("", 0.5, );
+  
+  addArrow(4,3, 4,4, ">", 0)()()("", 0.5, ) withcolor red;
+  addArrow(4,4, 4,5, ">", 0)()()("", 0.5, ) withcolor red;
+  addArrow(4,5, 4,6, ">", 0)()()("", 0.5, ) withcolor red;
+  addArrow(4,6, 4,7, ">", 0)()()("", 0.5, ) withcolor red;
+
+\stopMPcode\stopformula
+\stopbuffer
+
+\processTEXbuffer
+
+\typebuffer
+
 
 \stopchapter 
