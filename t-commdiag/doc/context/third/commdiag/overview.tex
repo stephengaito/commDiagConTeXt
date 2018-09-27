@@ -43,7 +43,7 @@ setup section.
   addObject(2,1, "Y_0");
   addObject(2,2, "Y_1");
 
-  drawObjects(1.75cm, 2cm);
+  drawRegularObjects(1.75cm, 2cm);
 
   addArrow(1,1, 1,2, ">", 0)()()("j_0",     0.5, top);
   addArrow(1,1, 2,1, ">", 0)()()("k_0",     0.5, lft);
@@ -100,10 +100,10 @@ an object for every row, column combination. Matrix cells which have no
 object label are simply not drawn\footnote{The object position values 
 \emph{are} computed should they be needed in your own code.}. 
 
-\item {\bf The \type{drawObjects} statement.} The two arguments to the 
-\type{drawObjects} macro, are the row height, and column width 
+\item {\bf The \type{drawRegularObjects} statement.} The two arguments to the 
+\type{drawRegularObjects} macro, are the row height, and column width 
 respectively. You can use these two parameters to adjust the overall size 
-of your diagram. The \type{drawObjects} statement sets the locations of 
+of your diagram. The \type{drawRegularObjects} statement sets the locations of 
 all of the object labels and then draws them\footnote{MetaPost has the 
 native ability to compute layouts given a collection of drawing 
 constraints. However, at this time, we keep things simple by 
@@ -119,7 +119,7 @@ object labels or object positions in your own MetaPost/MetaFun code.
 the \type{t-commdiag} primitives are not sufficient for your needs, you 
 are able to use the \type{objLabel} and \type{objPos} matrices in your own 
 MetaPost/MetaFun code. However your own code \emph{must} be located 
-\emph{after} the \type{drawObjects} statement, and preferably after all 
+\emph{after} the \type{drawRegularObjects} statement, and preferably after all 
 \type{addArrow} statements. 
 
 \stopitemize
@@ -260,7 +260,7 @@ big points.
   addObject(1,2, "\underset{n \in Z}{\prod} A_n") shifted (0, -5bp);
   addObject(1,3, "\underset{n \in Z}{\prod} A_n") shifted (0, -5bp);
   
-  drawObjects(1.75cm, 2cm);
+  drawRegularObjects(1.75cm, 2cm);
   
   addArrow(1,1, 1,2, ">", 0)()()("", 0.5, ) ;
   addArrow(1,2, 1,3, ">", 0)()()("", 0.5, ) ;
@@ -288,7 +288,7 @@ MetaPost/MetaFun code to draw this morphism. Note that we have used the
   addObject(1,1, "A") ;
   addObject(1,2, "B") ;
   
-  drawObjects(1.75cm, 2cm);
+  drawRegularObjects(1.75cm, 2cm);
   
   addArrow(1,1, 1,2, ">",  60)()()("", 0.5, );
   addArrow(1,1, 1,2, ">", -60)()()("", 0.5, );
@@ -323,7 +323,7 @@ to shift the arrows up or down from the standard arrow positions.
   addObject(1,2, "Y") ;
   addObject(1,3, "X") ;
     
-  drawObjects(1.75cm, 2.5cm);
+  drawRegularObjects(1.75cm, 2.5cm);
   
   addArrow(1,1, 1,2, ">", 0)()()("p_1", 0.5, top) shifted (0, 3bp);
   addArrow(1,1, 1,2, ">", 0)()()("p_2", 0.5, bot) shifted (0, -3bp);
@@ -346,7 +346,7 @@ to shift the arrows up or down from the standard arrow positions.
   addObject(1,2, "\text{\sans S}(X)") ;
   addObject(1,3, "\text{\sans S}(U)") ;
     
-  drawObjects(1.75cm, 2.5cm);
+  drawRegularObjects(1.75cm, 2.5cm);
   
   addArrow(1,2, 1,1, ">", 0)()()("i^*", 0.5, top) shifted (0, 10bp);
   addArrow(1,1, 1,2, ">", 0)()()("i_*", 0.5,    ) ;
@@ -365,7 +365,7 @@ to shift the arrows up or down from the standard arrow positions.
 \subsection[title=Rectangular diagrams]
 
 The following diagram shows how to adjust the column width to accomodate 
-the \quote{very long label} using the \type{drawObjects} column width 
+the \quote{very long label} using the \type{drawRegularObjects} column width 
 argument. 
 
 \startbuffer
@@ -379,7 +379,7 @@ argument.
   addObject(2,2, "E") ;
   addObject(2,3, "F") ;
   
-  drawObjects(1.75cm, 4cm);
+  drawRegularObjects(1.75cm, 4cm);
   
   addArrow(1,1, 1,2, ">", 0)()()("", 0.5, );
   addArrow(1,2, 1,3, ">", 0)()()("\text{very long label}", 0.5, top);
@@ -412,7 +412,7 @@ modifiers}.
   addObject(1,3, "C") ;
   addObject(2,2, "D") ;
   
-  drawObjects(1.75cm, 2cm);
+  drawRegularObjects(1.75cm, 2cm);
   
   addArrow(1,1, 1,2, ">->", 0)()()("u", 0.5, top);
   addArrow(1,1, 1,2, ">->", 0)()()("b", 0.5, bot);
@@ -452,7 +452,7 @@ modifiers}.
   
   addObject(3,1, "F") ;
   
-  drawObjects(1.75cm, 2cm);
+  drawRegularObjects(1.75cm, 2cm);
   
   addArrow(1,2, 2,3, ">", 0)()()("c", 0.5, );
   addArrow(1,2, 2,4, ">", 0)()()("d", 0.5, );
@@ -485,7 +485,7 @@ modifiers}.
   addObject(3,2, "Y") ;
   addObject(3,3, "Z") ;
     
-  drawObjects(1.75cm, 2.5cm);
+  drawRegularObjects(1.75cm, 2.5cm);
   
   addArrow(1,1, 2,3, ">", 30)()()("x", 0.5, urt);
   addArrow(1,1, 2,2, ">", 0)
@@ -516,7 +516,7 @@ modifiers}.
   addObject(1,4, "H^2(L/K)") ;
   addObject(3,4, "\mathbb{Q}/\mathbb{Z}") ;
     
-  drawObjects(1.75cm, 3cm);
+  drawRegularObjects(1.75cm, 3cm);
   
   addArrow(2,1, 2,2, ">", 0)()()("", 0.5, );
   addArrow(2,2, 2,3, ">", 0)()()("", 0.5, );
@@ -544,7 +544,7 @@ modifiers}.
   addObject(3,2, "(X \otimes (Y \otimes Z)) \otimes T") ;
   addObject(3,4, "((X \otimes Y) \otimes Z) \otimes T") ;
     
-  drawObjects(1.75cm, 2.5cm);
+  drawRegularObjects(1.75cm, 2.5cm);
   
   addArrow(1,3, 2,1, ">", 0)()()("1 \otimes \phi", 0.5, ulft);
   addArrow(1,3, 2,5, ">", 0)()()("\phi", 0.5, urt);
@@ -594,7 +594,7 @@ the Macros chapter below.}.
   addObject(4,6, "\text{Coker}\: g'") ;
   addObject(4,7, "0") ;
     
-  drawObjects(1.75cm, 2cm);
+  drawRegularObjects(1.75cm, 2cm);
   
   addArrow(1,1, 1,2, ">", 0)()()("", 0.5, ) withcolor red;
   addArrow(1,2, 1,3, ">", 0)()()("", 0.5, ) withcolor red;

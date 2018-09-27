@@ -18,7 +18,9 @@
     picture objLabel[][];
     pair objPos[][];
     numeric numRows; numRows := 0;
+    numeric rowHeights[];
     numeric numCols; numCols := 0;
+    numeric colWidths[];
   enddef ;
 
   def updateRowsCols(expr i, j) =
@@ -46,15 +48,39 @@
     ) ;
   enddef ;
 
-  def drawObjects(expr rowHeight, colWidth) = 
+  def initColWidths(expr colWidth) =
+    for i = 1 upto numCols :
+      colWidths[i] := colWidth;
+    endfor;
+  enddef;
+
+  def initRowHeights(expr rowHeight) =
+    for i = 1 upto numRows :
+      rowHeights[i] := rowHeight;
+    endfor;
+  enddef;
+
+  def drawRegularObjects(expr rowHeight, colWidth) = 
+    initColWidths(colWidth);
+    initRowHeights(rowHeight);
+    drawObjects;
+  enddef;
+
+  def drawObjects =
+    numeric rowPos, colPos;
+    
+    rowPos := 0;
     for i = 1 upto numRows : 
+      colPos := 0;
       for j = 1 upto numCols :
-        objPos[i][j] = (j*colWidth, (-i)*rowHeight);
+        objPos[i][j] = (colPos, rowPos);
         if known(objLabel[i][j]) :
           objLabel[i][j] := objLabel[i][j] shifted objPos[i][j];
           draw objLabel[i][j];
         fi ;
+        colPos := colPos + colWidths[j];
       endfor;
+      rowPos := rowPos - rowHeights[i];
     endfor;
   enddef;
 
