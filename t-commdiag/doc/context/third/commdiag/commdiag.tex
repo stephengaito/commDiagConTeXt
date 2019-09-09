@@ -4,6 +4,10 @@
 \usemodule[t-contests]
 \usemodule[t-commdiag]
 
+\showLitProgsMessages
+
+\startLitProgsComponent commDiag
+
 \setupinteraction[
   state=start,
   color=green,
@@ -27,14 +31,16 @@
 
 \starttext
 
-\component titlePages
+\litProgsComponent titlePages
 
-\component overview
+\litProgsComponent overview
 
-\component preamble
+\litProgsComponent preamble
 
-\component macros
+\litProgsComponent macros
 
-\component conclusion
+\litProgsComponent conclusion
 
 \stoptext
+
+\stopLitProgsComponent

@@ -1,6 +1,6 @@
 -- A Lua file
 
--- from file: conclusion.tex after line: 0
+-- from file: ~/ExpositionGit/tools/conTeXt/commDiagConTeXt/t-commdiag/doc/context/third/commdiag/conclusion.tex after line: 0
 
 -- Copyright 2019 PerceptiSys Ltd (Stephen Gaito)
 --
@@ -26,7 +26,7 @@
 -- FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 -- OTHER DEALINGS IN THE SOFTWARE.
 
--- from file: preamble.tex after line: 50
+-- from file: ~/ExpositionGit/tools/conTeXt/commDiagConTeXt/t-commdiag/doc/context/third/commdiag/preamble.tex after line: 50
 
 -- This is the lua code associated with t-commdiag.mkiv
 

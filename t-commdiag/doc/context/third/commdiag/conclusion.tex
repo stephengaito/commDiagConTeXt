@@ -31,23 +31,11 @@
   {-- A Lua file}
 
 \addMainDocument{commdiag.tex}
-\addSubDocument{overview.tex}
-\addSubDocument{macros.tex}
-\addSubDocument{preamble.tex}
-\addSubDocument{conclusion.tex}
 
 \addConTeXtModuleDirectory%
   {t-commdiag/tex/context/third/commdiag}
   
 \compileLmsfile{default}
-
-\startLmsfile
-
-require 'lms.contextDoc'
-
-contextDoc.targets(lpTargets)
-
-\stopLmsfile
 
 \prependLmsfile{default}
 \addMITLicense{Lmsfile}{--}{PerceptiSys Ltd (Stephen Gaito)}

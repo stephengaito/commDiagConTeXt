@@ -1,6 +1,6 @@
 % A ConTeXt MpIV module
 
-% from file: conclusion.tex after line: 0
+% from file: ~/ExpositionGit/tools/conTeXt/commDiagConTeXt/t-commdiag/doc/context/third/commdiag/conclusion.tex after line: 0
 
 %C Copyright 2019 PerceptiSys Ltd (Stephen Gaito)
 %C
@@ -26,7 +26,7 @@
 %C FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 %C OTHER DEALINGS IN THE SOFTWARE.
 
-% from file: preamble.tex after line: 0
+% from file: ~/ExpositionGit/tools/conTeXt/commDiagConTeXt/t-commdiag/doc/context/third/commdiag/preamble.tex after line: 0
 
 %D \module
 %D   [     file=t-commdiag,
@@ -51,7 +51,7 @@ if known commdiag_macros : endinput ; fi ;
 
 boolean commdiag_macros ; commdiag_macros := true ;
 
-% from file: macros.tex after line: 600
+% from file: ~/ExpositionGit/tools/conTeXt/commDiagConTeXt/t-commdiag/doc/context/third/commdiag/macros.tex after line: 600
 
 message("Loaded Commutative Diagram MetaPost definitions") ;
 
