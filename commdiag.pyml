@@ -1,0 +1,6 @@
+# This is a YAML description of the commdiag project.
+
+projects:
+  commdiag:
+    description: ConTeXt macros for producing Communative Diagrams using MetaPost.
+
