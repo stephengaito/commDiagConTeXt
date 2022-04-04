@@ -7,8 +7,8 @@ projects:
     targets:
       defaults:
         uses:
-          - litterate-prog
-          - contests
+          - literate-progs:module
+          - contests:module
         dependencies:
           - t-commdig/doc/context/third/commdiag/commdiag.tex
         outputDir: buildDir
