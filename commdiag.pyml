@@ -4,3 +4,26 @@ projects:
   commdiag:
     description: ConTeXt macros for producing Communative Diagrams using MetaPost.
 
+    targets:
+      defaults:
+        uses:
+          - litterate-prog
+          - contests
+        dependencies:
+          - t-commdig/doc/context/third/commdiag/commdiag.tex
+        outputDir: buildDir
+
+      doc:
+        help: Typeset the Commutative Diagrams module documentation
+
+        outputs:
+          - commdiag.pdf
+
+      module:
+        help: Typeset the Commutative Diagrams module
+
+        outputs:
+          - t-commdiag.lua
+          - t-commdiag.mkiv
+          - t-commdiag.mpiv
+
