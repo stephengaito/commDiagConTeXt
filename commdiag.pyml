@@ -12,6 +12,7 @@ projects:
         dependencies:
           - t-commdig/doc/context/third/commdiag/commdiag.tex
         outputDir: buildDir
+        worker: context
 
       doc:
         help: Typeset the Commutative Diagrams module documentation
