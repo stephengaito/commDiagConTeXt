@@ -28,3 +28,7 @@ projects:
           - t-commdiag.mkiv
           - t-commdiag.mpiv
 
+        install:
+          dir: t-commdiag/tex/context/third/commdiag
+          manualUpdate: True
+
