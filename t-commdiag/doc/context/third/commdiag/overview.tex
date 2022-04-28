@@ -2,44 +2,44 @@
 
 \startchapter[title=Overview]
 
-This document defines the Commutative Diagrams for \ConTeXt\ module, 
-\type{t-commdiag} \ConTeXt\ module. This module provides (Mathematical) 
-Commutative Diagrams using \ConTeXt's underlying MetaPost/MetaFun graphics 
-primitives. 
+This document defines the Commutative Diagrams for \ConTeXt\ module,
+\type{t-commdiag} \ConTeXt\ module. This module provides (Mathematical)
+Commutative Diagrams using \ConTeXt's underlying MetaPost/MetaFun graphics
+primitives.
 
-This document uses the \type{t-literate-modules} \ConTeXt\ module to 
-define the \type{t-commdiag} module. This means that the code required to 
-implement the Commutative Diagrams module is an integral part of this document. 
+This document uses the \type{t-literate-modules} \ConTeXt\ module to
+define the \type{t-commdiag} module. This means that the code required to
+implement the Commutative Diagrams module is an integral part of this document.
 
-As far as the \type{t-commdiag} module is concerned, a commutative diagram 
-is a collection of \quote{objects} laid out in a (rectangular) martix, 
-together with a collection of \quote{arrows} between pairs of 
-\quote{objects}. The label for a given object is typeset using \ConTeXt\ 
-and is then drawn in the appropriate location in the matrix. Each arrow 
-can be drawn with a number of arrow bodies, as well as arrow heads and/or 
-tails. Each arrow can also have a label, again typeset in \ConTeXt. 
+As far as the \type{t-commdiag} module is concerned, a commutative diagram
+is a collection of \quote{objects} laid out in a (rectangular) martix,
+together with a collection of \quote{arrows} between pairs of
+\quote{objects}. The label for a given object is typeset using \ConTeXt\
+and is then drawn in the appropriate location in the matrix. Each arrow
+can be drawn with a number of arrow bodies, as well as arrow heads and/or
+tails. Each arrow can also have a label, again typeset in \ConTeXt.
 
 \section[title=Using \type{t-commdiag}]
 
-To \emph{use} the \type{t-commdiag} module, you need to \type{use} the 
-\type{t-commdiag} module in the \quote{usual} \ConTeXt\ way: 
+To \emph{use} the \type{t-commdiag} module, you need to \type{use} the
+\type{t-commdiag} module in the \quote{usual} \ConTeXt\ way:
 
 \starttyping
 \usemodule[t-commdiag]
 \stoptyping
 
-\noindent\ This \type{\usemodule} statement must occur in the document's 
+\noindent\ This \type{\usemodule} statement must occur in the document's
 setup section.
 
 \section[title=Describing a commutative diagram]
 
-\startbuffer
-\startformula \startMPcode{commDiag}  
-  setupCommDiags ; 
-  
+\startbuffer[cdBuf]
+\startformula \startMPcode{commDiag}
+  setupCommDiags ;
+
   addObject(1,1, "X_0");
   addObject(1,2, "X_1");
-  
+
   addObject(2,1, "Y_0");
   addObject(2,2, "Y_1");
 
@@ -52,169 +52,169 @@ setup section.
 \stopMPcode \stopformula
 \stopbuffer
 
-As a simple example, consider the following square commutative diagram: 
-\processTEXbuffer
+As a simple example, consider the following square commutative diagram:
+\processTEXbuffer[cdBuf]
 
 \noindent\ It was created using the following \type{t-commdiag} code:
 
-\typebuffer
+\typebuffer[cdBuf]
 
-A typical \type{t-commdiag} diagram's code is enclosed in a \ConTeXt\ 
-MetaFun environment (in this case the pair of 
-\type{\startMPcode{commDiag}}\footnote{The \ConTeXt\ MetaFun macros all 
-work within named MetaPost library instances. This ensures differnt uses 
-of MetaPost are properly isolated. The \type{t-commdiag} module follows 
-this practice by defining all of its MetaPost/MetaFun macros inside the 
-\type{commDiag} instance. This means that the \type{commDiag} argument to 
-the \ConTeXt\ MetaPost/MetaFun environments is \emph{required}.} and 
-\type{\stopMPcode} \ConTeXt\ macros). While a \type{t-commdiag} 
-commutative diagram \emph{can} be position inline (inside running text), 
-it is typically positioned using one of \ConTeXt's displayed mathematics 
-or figure environments (in this case the pair of \type{\startformula} and 
-\type{\stopformula} \ConTeXt\ macros). 
+A typical \type{t-commdiag} diagram's code is enclosed in a \ConTeXt\
+MetaFun environment (in this case the pair of
+\type{\startMPcode{commDiag}}\footnote{The \ConTeXt\ MetaFun macros all
+work within named MetaPost library instances. This ensures differnt uses
+of MetaPost are properly isolated. The \type{t-commdiag} module follows
+this practice by defining all of its MetaPost/MetaFun macros inside the
+\type{commDiag} instance. This means that the \type{commDiag} argument to
+the \ConTeXt\ MetaPost/MetaFun environments is \emph{required}.} and
+\type{\stopMPcode} \ConTeXt\ macros). While a \type{t-commdiag}
+commutative diagram \emph{can} be position inline (inside running text),
+it is typically positioned using one of \ConTeXt's displayed mathematics
+or figure environments (in this case the pair of \type{\startformula} and
+\type{\stopformula} \ConTeXt\ macros).
 
-The \type{t-commdiag} code which describes a given commutative diagram has 
-five sections: 
+The \type{t-commdiag} code which describes a given commutative diagram has
+five sections:
 
 \startitemize[n]
 
-\item {\bf The \type{setupComDiags} statement} sets up the \type{objLabel} 
-(object labels), and \type{objPos} (object position) matrices, as well as 
-the \type{numRows} and \type{numCols} variables. These \type{objLabel} and 
-\type{objPos} matrices are used by the \type{addObject} and 
-\type{addArrow} statements, to correctly align the objects and arrows of 
-the commutative diagram. These matrices can also be used in your own 
-MetaPost/MetaFun code. 
+\item {\bf The \type{setupComDiags} statement} sets up the \type{objLabel}
+(object labels), and \type{objPos} (object position) matrices, as well as
+the \type{numRows} and \type{numCols} variables. These \type{objLabel} and
+\type{objPos} matrices are used by the \type{addObject} and
+\type{addArrow} statements, to correctly align the objects and arrows of
+the commutative diagram. These matrices can also be used in your own
+MetaPost/MetaFun code.
 
-\item {\bf A collection of \type{addObject} statements.} The 
-\type{addObject} macro takes upto four arguments. The first two are the 
-row and column in the overall commutative diagram's matrix in which the 
-object is located. The third argument is the object label as a string, 
-which is typeset by \ConTeXt. The optional last argument, in standard 
-MetaPost style, is specified by the text \emph{after} the closing 
-\type{")"} and the statement end, \type{";"}. Any picture modification 
-macro can be used in this optional last argument. The row and column 
-arguments are expected to be integers and are indices into the 
-\type{objLabel} and \type{objPos} matrices. You are not required to supply 
-an object for every row, column combination. Matrix cells which have no 
-object label are simply not drawn\footnote{The object position values 
-\emph{are} computed should they be needed in your own code.}. 
+\item {\bf A collection of \type{addObject} statements.} The
+\type{addObject} macro takes upto four arguments. The first two are the
+row and column in the overall commutative diagram's matrix in which the
+object is located. The third argument is the object label as a string,
+which is typeset by \ConTeXt. The optional last argument, in standard
+MetaPost style, is specified by the text \emph{after} the closing
+\type{")"} and the statement end, \type{";"}. Any picture modification
+macro can be used in this optional last argument. The row and column
+arguments are expected to be integers and are indices into the
+\type{objLabel} and \type{objPos} matrices. You are not required to supply
+an object for every row, column combination. Matrix cells which have no
+object label are simply not drawn\footnote{The object position values
+\emph{are} computed should they be needed in your own code.}.
 
-\item {\bf The \type{drawRegularObjects} statement.} The two arguments to the 
-\type{drawRegularObjects} macro, are the row height, and column width 
-respectively. You can use these two parameters to adjust the overall size 
-of your diagram. The \type{drawRegularObjects} statement sets the locations of 
-all of the object labels and then draws them\footnote{MetaPost has the 
-native ability to compute layouts given a collection of drawing 
-constraints. However, at this time, we keep things simple by 
-\emph{explicitly} supplying the row height and column width. At sometime 
-in the future, we may implement full \emph{implicit} layout using 
-MetaPost's native constraint solving capabilities.}. You can use these 
-object labels or object positions in your own MetaPost/MetaFun code. 
+\item {\bf The \type{drawRegularObjects} statement.} The two arguments to the
+\type{drawRegularObjects} macro, are the row height, and column width
+respectively. You can use these two parameters to adjust the overall size
+of your diagram. The \type{drawRegularObjects} statement sets the locations of
+all of the object labels and then draws them\footnote{MetaPost has the
+native ability to compute layouts given a collection of drawing
+constraints. However, at this time, we keep things simple by
+\emph{explicitly} supplying the row height and column width. At sometime
+in the future, we may implement full \emph{implicit} layout using
+MetaPost's native constraint solving capabilities.}. You can use these
+object labels or object positions in your own MetaPost/MetaFun code.
 
-\item {\bf A collection of \type{addArrow} statements.} The 
-\type{addArrow} macro is rather more complex and is discussed below. 
+\item {\bf A collection of \type{addArrow} statements.} The
+\type{addArrow} macro is rather more complex and is discussed below.
 
-\item {\bf Optionally, your own MetaPost/MetaFun code.} If for some reason 
-the \type{t-commdiag} primitives are not sufficient for your needs, you 
-are able to use the \type{objLabel} and \type{objPos} matrices in your own 
-MetaPost/MetaFun code. However your own code \emph{must} be located 
-\emph{after} the \type{drawRegularObjects} statement, and preferably after all 
-\type{addArrow} statements. 
+\item {\bf Optionally, your own MetaPost/MetaFun code.} If for some reason
+the \type{t-commdiag} primitives are not sufficient for your needs, you
+are able to use the \type{objLabel} and \type{objPos} matrices in your own
+MetaPost/MetaFun code. However your own code \emph{must} be located
+\emph{after} the \type{drawRegularObjects} statement, and preferably after all
+\type{addArrow} statements.
 
 \stopitemize
 
-\noindent\ The order of these five sections is \emph{critical}, they will 
-not work in any other order. 
+\noindent\ The order of these five sections is \emph{critical}, they will
+not work in any other order.
 
 \section[title=The \type{addArrow} macro]
 
-{\bf The \type{addArrow} macro} has upto 12 arguments in a number of 
-logical groups. The {\bf arrow is described} by the first six arguments. 
-The next two arguments, as well as the last (optional) argument 12, all 
-provide you the ability to specify {\bf MetaPost/MetaFun picture 
-commands}. Arguments 9, 10 and 11 describe the arrow's label. 
+{\bf The \type{addArrow} macro} has upto 12 arguments in a number of
+logical groups. The {\bf arrow is described} by the first six arguments.
+The next two arguments, as well as the last (optional) argument 12, all
+provide you the ability to specify {\bf MetaPost/MetaFun picture
+commands}. Arguments 9, 10 and 11 describe the arrow's label.
 
 \startitemize[n]
 
-\item {\bf Arrow description } \type{fromRow} integer index. 
+\item {\bf Arrow description } \type{fromRow} integer index.
 
-\item {\bf Arrow description } \type{fromCol} integer index. 
+\item {\bf Arrow description } \type{fromCol} integer index.
 
-\item {\bf Arrow description } \type{toRow} integer index. 
+\item {\bf Arrow description } \type{toRow} integer index.
 
-\item {\bf Arrow description } \type{toCol} integer index. Together these 
-four indices, \type{(fromRow, fromCol)} and \type{(toRow, toCol)}, specify 
-the objects which the arrow connects. 
+\item {\bf Arrow description } \type{toCol} integer index. Together these
+four indices, \type{(fromRow, fromCol)} and \type{(toRow, toCol)}, specify
+the objects which the arrow connects.
 
-\item {\bf Arrow description } \type{arrowDecorations} is a string which 
-describes the tail, body and head of the arrow. Its contents and meaning 
-are described below. 
+\item {\bf Arrow description } \type{arrowDecorations} is a string which
+describes the tail, body and head of the arrow. Its contents and meaning
+are described below.
 
-\item {\bf Arrow description } \type{bend} is a numerical angle to the 
-left of the straight line with which the line should bend away from the 
-straight line. Negative angles bend to the right. 
+\item {\bf Arrow description } \type{bend} is a numerical angle to the
+left of the straight line with which the line should bend away from the
+straight line. Negative angles bend to the right.
 
-\item {\bf MetaPost/MetaFun picture command} (optional) arrow body 
-modifiers. These MetaPost/MetaFun command \emph{must} be surrounded by a 
-pair of round brackets, \type{"("} and \type{")"}. If you only supply an 
-empty pair of round brackets, no commands will be used. 
+\item {\bf MetaPost/MetaFun picture command} (optional) arrow body
+modifiers. These MetaPost/MetaFun command \emph{must} be surrounded by a
+pair of round brackets, \type{"("} and \type{")"}. If you only supply an
+empty pair of round brackets, no commands will be used.
 
-\item {\bf MetaPost/MetaFun picture command} (optional) arrow tail and/or 
-head modifiers. These MetaPost/MetaFun command \emph{must} be surrounded 
-by a pair of round brackets, \type{"("} and \type{")"}. If you only supply 
-an empty pair of round brackets, no commands will be used. 
+\item {\bf MetaPost/MetaFun picture command} (optional) arrow tail and/or
+head modifiers. These MetaPost/MetaFun command \emph{must} be surrounded
+by a pair of round brackets, \type{"("} and \type{")"}. If you only supply
+an empty pair of round brackets, no commands will be used.
 
-\item {\bf Label description} a label string which is typeset by \ConTeXt. 
+\item {\bf Label description} a label string which is typeset by \ConTeXt.
 If the label string is empty, \type{""}, no label will be drawn.
 
-\item {\bf Label description} the linear label position (a numeric value 
-between zero and one), which denotes how far along the arrow to place the 
-label. Values less than or equal to zero or greater than or equal to one 
-will place the label in the \emph{middle} of the arrow. 
+\item {\bf Label description} the linear label position (a numeric value
+between zero and one), which denotes how far along the arrow to place the
+label. Values less than or equal to zero or greater than or equal to one
+will place the label in the \emph{middle} of the arrow.
 
-\item {\bf Label description} the relative label position (a symbolic 
-value) indicates where the label should be placed relative to the position 
-along the arrow's length. You can use any value, such as \type{lft}, 
-\type{rt}, \type{top}, or \type{bot}, which can be used with the MetaPost 
-\type{label} macro. 
+\item {\bf Label description} the relative label position (a symbolic
+value) indicates where the label should be placed relative to the position
+along the arrow's length. You can use any value, such as \type{lft},
+\type{rt}, \type{top}, or \type{bot}, which can be used with the MetaPost
+\type{label} macro.
 
-\item {\bf MetaPost/MetaFun picture command} (optional) modifies the 
-\emph{whole} arrow. In typical MetaPost/MetaFun fashion, these modifiers 
-are \emph{outside} of the \type{addArrow}'s formal arguments (that is they 
-are everything between the last \type{")"} and the statement's \type{";"}). 
+\item {\bf MetaPost/MetaFun picture command} (optional) modifies the
+\emph{whole} arrow. In typical MetaPost/MetaFun fashion, these modifiers
+are \emph{outside} of the \type{addArrow}'s formal arguments (that is they
+are everything between the last \type{")"} and the statement's \type{";"}).
 
 \stopitemize
 
 
-{\bf The \type{arrowDecorations} string} consists of three parts. The 
-first (optional) part describes the tail decorations. The middle 
-(optional) part describes the type of arrow. The last (optional) part 
-describes the head decorations. An empty, \type{""}, 
-\type{arrowDecorations} string will be replaced by the string \type{"->"}. 
-The tail and head decorations are deliniated by the \emph{first} body 
-decoration\footnote{Any body decorators other than the first one found 
-will be ignored.}, \type{"-"}, \type{"="}, \type{"~"}, or \type{"^"}, 
-found in the string. If no body decoration is found, the tail decorations 
-are assumed to be \type{""} and the body decorations are \type{"-"}. In 
-this case all of the \type{arrowDecroations} are used to describe the 
-arrow heads. The tail and head decorations are: 
+{\bf The \type{arrowDecorations} string} consists of three parts. The
+first (optional) part describes the tail decorations. The middle
+(optional) part describes the type of arrow. The last (optional) part
+describes the head decorations. An empty, \type{""},
+\type{arrowDecorations} string will be replaced by the string \type{"->"}.
+The tail and head decorations are deliniated by the \emph{first} body
+decoration\footnote{Any body decorators other than the first one found
+will be ignored.}, \type{"-"}, \type{"="}, \type{"~"}, or \type{"^"},
+found in the string. If no body decoration is found, the tail decorations
+are assumed to be \type{""} and the body decorations are \type{"-"}. In
+this case all of the \type{arrowDecroations} are used to describe the
+arrow heads. The tail and head decorations are:
 
 \startitemize
 
 \item \type{"o"} a dot at the tail or head end of the arrow.
 
-\item \type{">"} an arrow head at the tail or head end of the arrow, 
-directed in the positive direction of the arrow. 
+\item \type{">"} an arrow head at the tail or head end of the arrow,
+directed in the positive direction of the arrow.
 
-\item \type{"<"} an arrow head at the tail or head end of the arrow, 
+\item \type{"<"} an arrow head at the tail or head end of the arrow,
 directed in the opposite direction of the arrow.
 
-\item \type{"]"} a second arrow head at the tail or head 
-end of the arrow, directed in the positive direction of the arrow. 
+\item \type{"]"} a second arrow head at the tail or head
+end of the arrow, directed in the positive direction of the arrow.
 
-\item \type{"["} a second arrow head at the tail or head 
-end of the arrow, directed in the opposite direction of the arrow. 
+\item \type{"["} a second arrow head at the tail or head
+end of the arrow, directed in the opposite direction of the arrow.
 
 \stopitemize
 
@@ -224,8 +224,8 @@ end of the arrow, directed in the opposite direction of the arrow.
 
 \item \type{"-"} the arrow will be drawn with a simple straight line.
 
-\item \type{"="} the arrow will be drawn with a double \quote{equals} 
-line. 
+\item \type{"="} the arrow will be drawn with a double \quote{equals}
+line.
 
 \item \type{"~"} the arrow will be drawn with a squiggly line.
 
@@ -237,68 +237,68 @@ line.
 
 \useURL[guideCDPackages][https://www.jmilne.org/not/CDGuide.html]
 
-The best way to understand how these macros can be used is to read through 
-the following examples. These examples are similar to those constructed in 
-James Milne's \quote{Guide to Commutative Diagram Packages} which can be 
-found online at \from[guideCDPackages]. In particular Milne's guide to 
-drawing commutative diagrams using the TikZ and/or TikZ-cd packages has 
-the greatest number of complex diagrams. We will provide examples of how 
-to use \type{t-commdiag} to draw each of these examples. 
+The best way to understand how these macros can be used is to read through
+the following examples. These examples are similar to those constructed in
+James Milne's \quote{Guide to Commutative Diagram Packages} which can be
+found online at \from[guideCDPackages]. In particular Milne's guide to
+drawing commutative diagrams using the TikZ and/or TikZ-cd packages has
+the greatest number of complex diagrams. We will provide examples of how
+to use \type{t-commdiag} to draw each of these examples.
 
 \subsection[title=Linear diagrams]
 
-The following diagram shows how to deal with object labels with widly 
-different sizes. We have used the optional \type{addObject} text argument 
-to modify the location of the two large formulas by shifting them down 5 
-big points. 
+The following diagram shows how to deal with object labels with widly
+different sizes. We have used the optional \type{addObject} text argument
+to modify the location of the two large formulas by shifting them down 5
+big points.
 
-\startbuffer
+\startbuffer[cdBuf]
 \startformula\startMPcode{commDiag}
   setupCommDiags ;
-  
+
   addObject(1,1, "\hat{A}") ;
   addObject(1,2, "\underset{n \in Z}{\prod} A_n") shifted (0, -5bp);
   addObject(1,3, "\underset{n \in Z}{\prod} A_n") shifted (0, -5bp);
-  
+
   drawRegularObjects(1.75cm, 2cm);
-  
+
   addArrow(1,1, 1,2, ">", 0)()()("", 0.5, ) ;
   addArrow(1,2, 1,3, ">", 0)()()("", 0.5, ) ;
 \stopMPcode\stopformula
 \stopbuffer
 
-\processTEXbuffer
+\processTEXbuffer[cdBuf]
 
-\typebuffer
+\typebuffer[cdBuf]
 
-The following diagram shows how to bend arrows using the \type{addArrow} 
-\quote{bend} argument. This example also shows how to use the 
-\type{computeArrow} and \type{drawCDArrow} macros\footnote{Documented in 
-the Macros chapter below.} provided by the \type{t-commdiag} module. In 
-this case the \quote{natural morphism} arrow is not between any pair of 
-objects in the diagram, so we have used our own additional 
-MetaPost/MetaFun code to draw this morphism. Note that we have used the 
-\type{t-commdiag} internal variable, \type{drawFilledArrows}, to draw the 
-\quote{natural morphism} with an open arrow head. 
+The following diagram shows how to bend arrows using the \type{addArrow}
+\quote{bend} argument. This example also shows how to use the
+\type{computeArrow} and \type{drawCDArrow} macros\footnote{Documented in
+the Macros chapter below.} provided by the \type{t-commdiag} module. In
+this case the \quote{natural morphism} arrow is not between any pair of
+objects in the diagram, so we have used our own additional
+MetaPost/MetaFun code to draw this morphism. Note that we have used the
+\type{t-commdiag} internal variable, \type{drawFilledArrows}, to draw the
+\quote{natural morphism} with an open arrow head.
 
-\startbuffer
+\startbuffer[cdBuf]
 \startformula\startMPcode{commDiag}
   setupCommDiags ;
-  
+
   addObject(1,1, "A") ;
   addObject(1,2, "B") ;
-  
+
   drawRegularObjects(1.75cm, 2cm);
-  
+
   addArrow(1,1, 1,2, ">",  60)()()("", 0.5, );
   addArrow(1,1, 1,2, ">", -60)()()("", 0.5, );
-  
+
   save upperArrow, lowerArrow, anArrow;
   path upperArrow, lowerArrow, anArrow;
   %
   upperArrow := computeArrow(1,1, 1,2,  50);
   lowerArrow := computeArrow(1,1, 1,2, -50);
-  anArrow    := 
+  anArrow    :=
     point 0.5*length(upperArrow) of upperArrow --
     point 0.5*length(lowerArrow) of lowerArrow;
   %
@@ -308,121 +308,122 @@ MetaPost/MetaFun code to draw this morphism. Note that we have used the
 \stopMPcode\stopformula
 \stopbuffer
 
-\processTEXbuffer
+\processTEXbuffer[cdBuf]
 
-\typebuffer
+\typebuffer[cdBuf]
 
-In the next two diagrams we use the optional \quote{whole arrow modifiers} 
-to shift the arrows up or down from the standard arrow positions. 
+In the next two diagrams we use the optional \quote{whole arrow modifiers}
+to shift the arrows up or down from the standard arrow positions.
 
-\startbuffer
+\startbuffer[cdBuf]
 \startformula\startMPcode{commDiag}
   setupCommDiags ;
-  
+
   addObject(1,1, "Y \times_X Y") ;
   addObject(1,2, "Y") ;
   addObject(1,3, "X") ;
-    
+
   drawRegularObjects(1.75cm, 2.5cm);
-  
+
   addArrow(1,1, 1,2, ">", 0)()()("p_1", 0.5, top) shifted (0, 3bp);
   addArrow(1,1, 1,2, ">", 0)()()("p_2", 0.5, bot) shifted (0, -3bp);
-  
+
   addArrow(1,2, 1,3, ">", 0)()()("", 0.5, );
 \stopMPcode\stopformula
 \stopbuffer
 
-\processTEXbuffer
+\processTEXbuffer[cdBuf]
 
-\typebuffer
+\typebuffer[cdBuf]
 
 \blank[2*big]
 
-\startbuffer
+\startbuffer[cdBuf]
 \startformula\startMPcode{commDiag}
   setupCommDiags ;
-  
+
   addObject(1,1, "\text{\sans S}(Z)") ;
   addObject(1,2, "\text{\sans S}(X)") ;
   addObject(1,3, "\text{\sans S}(U)") ;
-    
+
   drawRegularObjects(1.75cm, 2.5cm);
-  
+
   addArrow(1,2, 1,1, ">", 0)()()("i^*", 0.5, top) shifted (0, 10bp);
   addArrow(1,1, 1,2, ">", 0)()()("i_*", 0.5,    ) ;
   addArrow(1,2, 1,1, ">", 0)()()("i^!", 0.5, bot) shifted (0, -10bp);
-  
+
   addArrow(1,3, 1,2, ">", 0)()()("i^*", 0.5, top) shifted (0, 10bp);
   addArrow(1,2, 1,3, ">", 0)()()("i_*", 0.5,    ) ;
   addArrow(1,3, 1,2, ">", 0)()()("i^!", 0.5, bot) shifted (0, -10bp);
 \stopMPcode\stopformula
 \stopbuffer
 
-\processTEXbuffer
+\processTEXbuffer[cdBuf]
 
-\typebuffer
+\typebuffer[cdBuf]
 
 \subsection[title=Rectangular diagrams]
 
-The following diagram shows how to adjust the column width to accomodate 
-the \quote{very long label} using the \type{drawRegularObjects} column width 
-argument. 
+The following diagram shows how to adjust the column width to accomodate
+the \quote{very long label} using the \type{drawRegularObjects} column width
+argument.
 
-\startbuffer
+\startbuffer[cdBuf]
 \startformula\startMPcode{commDiag}
   setupCommDiags ;
-  
+
   addObject(1,1, "A") ;
   addObject(1,2, "B") ;
   addObject(1,3, "C") ;
   addObject(2,1, "D") ;
   addObject(2,2, "E") ;
   addObject(2,3, "F") ;
-  
+
   drawRegularObjects(1.75cm, 4cm);
-  
+
   addArrow(1,1, 1,2, ">", 0)()()("", 0.5, );
   addArrow(1,2, 1,3, ">", 0)()()("\text{very long label}", 0.5, top);
-  
+
   addArrow(2,1, 2,2, ">", 0)()()("", 0.5, );
   addArrow(2,2, 2,3, ">", 0)()()("", 0.5, );
-  
+
   addArrow(1,1, 2,1, ">", 0)()()("", 0.5, );
   addArrow(1,2, 2,2, ">", 0)()()("", 0.5, );
   addArrow(1,3, 2,3, ">", 0)()()("", 0.5, );
 \stopMPcode\stopformula
 \stopbuffer
 
-\processTEXbuffer
+\processTEXbuffer[cdBuf]
 
-\typebuffer
+\typebuffer[cdBuf]
+
 \subsection[title=Triangular diagrams]
 
-The following diagram shows how to position multiple arrow labels both 
-above and below the line of the arrow. This example also shows how to draw 
-an arrow with dots by using the (optional) \quote{MetaPost/MetaFun body 
-modifiers}. 
+The following diagram shows how to position multiple arrow labels both
+above and below the line of the arrow. This example also shows how to draw
+an arrow with dots by using the (optional) \quote{MetaPost/MetaFun body
+modifiers}.
 
-\startbuffer
+\startbuffer[cdBuf]
 \startformula\startMPcode{commDiag}
   setupCommDiags ;
-  
+
   addObject(1,1, "A") ;
   addObject(1,2, "B") ;
   addObject(1,3, "C") ;
   addObject(2,2, "D") ;
-  
+
   drawRegularObjects(1.75cm, 2cm);
-  
+
   addArrow(1,1, 1,2, ">->", 0)()()("u", 0.5, top);
   addArrow(1,1, 1,2, ">->", 0)()()("b", 0.5, bot);
 
   addArrow(1,3, 1,2, ">->", 0)()()("u", 0.5, top);
   addArrow(1,3, 1,2, ">->", 0)()()("b", 0.5, bot);
-  
+
   addArrow(1,1, 2,2, "]>",  0)()()("u", 0.5, urt);
   addArrow(1,1, 2,2, "]>",  0)()()("b", 0.5, llft);
-  
+
   addArrow(1,3, 2,2, "]>",  0)()()("u", 0.5, ulft);
   addArrow(1,3, 2,2, "]>",  0)()()("b", 0.5, lrt);
 
@@ -433,27 +434,27 @@ modifiers}.
 \stopMPcode\stopformula
 \stopbuffer
 
-\processTEXbuffer
+\processTEXbuffer[cdBuf]
 
-\typebuffer
+\typebuffer[cdBuf]
 
 \subsection[title=Complex diagrams]
 
-\startbuffer
+\startbuffer[cdBuf]
 \startformula\startMPcode{commDiag}
   setupCommDiags ;
-  
+
   addObject(1,2, "A") ;
-  
+
   addObject(2,2, "B") ;
   addObject(2,3, "C") ;
   addObject(2,4, "D") ;
   addObject(2,5, "E") ;
-  
+
   addObject(3,1, "F") ;
-  
+
   drawRegularObjects(1.75cm, 2cm);
-  
+
   addArrow(1,2, 2,3, ">", 0)()()("c", 0.5, );
   addArrow(1,2, 2,4, ">", 0)()()("d", 0.5, );
   addArrow(1,2, 2,5, ">", 0)()()("e", 0.5, );
@@ -461,32 +462,32 @@ modifiers}.
   addArrow(2,2, 2,3, ">", 0)()()("", 0.5, );
   addArrow(2,3, 2,4, ">", 0)()()("", 0.5, );
   addArrow(2,4, 2,5, ">", 0)()()("", 0.5, );
-  
+
   addArrow(1,2, 3,1, ">", 0)()()("f", 0.5, ulft);
   addArrow(2,2, 3,1, ">", 0)()()("",  0.5, );
 \stopMPcode\stopformula
 \stopbuffer
 
-\processTEXbuffer
+\processTEXbuffer[cdBuf]
 
-\typebuffer
+\typebuffer[cdBuf]
 
 \blank[2*big]
 
-\startbuffer
+\startbuffer[cdBuf]
 \startformula\startMPcode{commDiag}
   setupCommDiags ;
-  
+
   addObject(1,1, "T") ;
-  
+
   addObject(2,2, "X \times_Z Y") ;
   addObject(2,3, "X") ;
-  
+
   addObject(3,2, "Y") ;
   addObject(3,3, "Z") ;
-    
+
   drawRegularObjects(1.75cm, 2.5cm);
-  
+
   addArrow(1,1, 2,3, ">", 30)()()("x", 0.5, urt);
   addArrow(1,1, 2,2, ">", 0)
     (dashed withdots scaled 0.5)()("(x,y)", 0.5, );
@@ -499,79 +500,79 @@ modifiers}.
 \stopMPcode\stopformula
 \stopbuffer
 
-\processTEXbuffer
+\processTEXbuffer[cdBuf]
 
-\typebuffer
+\typebuffer[cdBuf]
 
 \blank[2*big]
 
-\startbuffer
+\startbuffer[cdBuf]
 \startformula\startMPcode{commDiag}
   setupCommDiags ;
-  
+
   addObject(2,1, "0") ;
   addObject(2,2, "\text{Br}(L/K)") ;
   addObject(2,3, "\bigoplus_v \text{Br}(L^v/K_v)") ;
-  
+
   addObject(1,4, "H^2(L/K)") ;
   addObject(3,4, "\mathbb{Q}/\mathbb{Z}") ;
-    
+
   drawRegularObjects(1.75cm, 3cm);
-  
+
   addArrow(2,1, 2,2, ">", 0)()()("", 0.5, );
   addArrow(2,2, 2,3, ">", 0)()()("", 0.5, );
-  
+
   addArrow(2,3, 1,4, ">", 0)()()("", 0.5, );
   addArrow(2,3, 3,4, ">", 0)()()("", 0.5, );
 \stopMPcode\stopformula
 \stopbuffer
 
-\processTEXbuffer
+\processTEXbuffer[cdBuf]
 
-\typebuffer
+\typebuffer[cdBuf]
 
 \blank[2*big]
 
-\startbuffer
+\startbuffer[cdBuf]
 \startformula\startMPcode{commDiag}
   setupCommDiags ;
-  
+
   addObject(1,3, "X \otimes (Y \otimes (Z \otimes T))") ;
-  
+
   addObject(2,1, "X \otimes ((Y \otimes Z) \otimes T)") ;
   addObject(2,5, "(X \otimes Y) \otimes (Z \otimes T)") ;
-  
+
   addObject(3,2, "(X \otimes (Y \otimes Z)) \otimes T") ;
   addObject(3,4, "((X \otimes Y) \otimes Z) \otimes T") ;
-    
+
   drawRegularObjects(1.75cm, 2.5cm);
-  
+
   addArrow(1,3, 2,1, ">", 0)()()("1 \otimes \phi", 0.5, ulft);
   addArrow(1,3, 2,5, ">", 0)()()("\phi", 0.5, urt);
-  
+
   addArrow(2,1, 3,2, ">", 0)()()("\phi", 0.5, llft);
   addArrow(2,5, 3,4, ">", 0)()()("\phi", 0.5, lrt);
-  
+
   addArrow(3,2, 3,4, ">", 0)()()("\phi \otimes 1", 0.5, top);
 \stopMPcode\stopformula
 \stopbuffer
 
-\processTEXbuffer
+\processTEXbuffer[cdBuf]
 
-\typebuffer
+\typebuffer[cdBuf]
 
 \blank[2*big]
 
-The following diagram shows how to make direct use of the \type{objPos} 
-matrix values to construct a path with the correct shape to suit the 
-diagram. We then use this path to draw the arrow and its label using the 
-\type{drawCDArrow} and \type{drawArrowLabel} macros\footnote{Documented in 
-the Macros chapter below.}. 
+The following diagram shows how to make direct use of the \type{objPos}
+matrix values to construct a path with the correct shape to suit the
+diagram. We then use this path to draw the arrow and its label using the
+\type{drawCDArrow} and \type{drawArrowLabel} macros\footnote{Documented in
+the Macros chapter below.}.
 
-\startbuffer
+\startbuffer[cdBuf]
 \startformula\startMPcode{commDiag}
   setupCommDiags ;
-  
+
   addObject(1,1, "0") ;
   addObject(1,2, "\text{Ker}\; f") ;
   addObject(1,3, "\text{Ker}\: a") ;
@@ -582,7 +583,7 @@ the Macros chapter below.}.
   addObject(2,4, "B") withcolor blue;
   addObject(2,5, "C") withcolor blue;
   addObject(2,6, "0") withcolor blue;
-  
+
   addObject(3,2, "0")  withcolor blue;
   addObject(3,3, "A'") withcolor blue;
   addObject(3,4, "B'") withcolor blue;
@@ -593,18 +594,18 @@ the Macros chapter below.}.
   addObject(4,5, "\text{Coker}\: c") ;
   addObject(4,6, "\text{Coker}\: g'") ;
   addObject(4,7, "0") ;
-    
+
   drawRegularObjects(1.75cm, 2cm);
-  
+
   addArrow(1,1, 1,2, ">", 0)()()("", 0.5, ) withcolor red;
   addArrow(1,2, 1,3, ">", 0)()()("", 0.5, ) withcolor red;
   addArrow(1,3, 1,4, ">", 0)()()("", 0.5, ) withcolor red;
   addArrow(1,4, 1,5, ">", 0)()()("", 0.5, ) withcolor red;
-  
+
   addArrow(1,3, 2,3, ">", 0)()()("", 0.5, );
   addArrow(1,4, 2,4, ">", 0)()()("", 0.5, );
   addArrow(1,5, 2,5, ">", 0)()()("", 0.5, );
-  
+
   addArrow(2,3, 2,4, ">", 0)()()("f", 0.5, top) withcolor blue;
   addArrow(2,4, 2,5, ">", 0)()()("g", 0.5, top) withcolor blue;
   addArrow(2,5, 2,6, ">", 0)()()("", 0.5, ) withcolor blue;
@@ -620,18 +621,18 @@ the Macros chapter below.}.
   addArrow(3,3, 4,3, ">", 0)()()("", 0.5, );
   addArrow(3,4, 4,4, ">", 0)()()("", 0.5, );
   addArrow(3,5, 4,5, ">", 0)()()("", 0.5, );
-  
+
   addArrow(4,3, 4,4, ">", 0)()()("", 0.5, ) withcolor red;
   addArrow(4,4, 4,5, ">", 0)()()("", 0.5, ) withcolor red;
   addArrow(4,5, 4,6, ">", 0)()()("", 0.5, ) withcolor red;
   addArrow(4,6, 4,7, ">", 0)()()("", 0.5, ) withcolor red;
- 
+
   save anArrow; path anArrow;
-  anArrow := 
+  anArrow :=
     objPos[1][5] shifted (0.75cm, 0) --
     objPos[1][5] shifted (1cm, 0){dir 0} ..
     tension 5 ..
-    {dir 0}objPos[4][3] shifted (-1cm, 0) -- 
+    {dir 0}objPos[4][3] shifted (-1cm, 0) --
     objPos[4][3] shifted (-0.75cm, 0);
   drawCDArrow(">", anArrow)()() withcolor red;
   drawArrowLabel("d", 0.51, ulft, anArrow) withcolor red;
@@ -639,8 +640,8 @@ the Macros chapter below.}.
 \stopMPcode\stopformula
 \stopbuffer
 
-\processTEXbuffer
+\processTEXbuffer[cdBuf]
 
-\typebuffer
+\typebuffer[cdBuf]
 
-\stopchapter 
+\stopchapter

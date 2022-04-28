@@ -9,6 +9,8 @@ projects:
         uses:
           - literate-progs:module
           - contests:module
+        srcDir: t-commdiag/doc/context/third/commdiag
+        mainFile: commdiag.tex
         dependencies:
           - t-commdig/doc/context/third/commdiag/commdiag.tex
         outputDir: buildDir
